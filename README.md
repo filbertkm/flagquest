@@ -1,6 +1,6 @@
 # FlagQuest
 
-A geography quiz game built with Nuxt and Vue where you guess countries from their flags. Country data is fetched from Wikidata and features an intelligent autocomplete system.
+A geography quiz game built with Nuxt and Vue where you guess countries from their flags. Country data is fetched from Wikidata.
 
 ## Setup
 
