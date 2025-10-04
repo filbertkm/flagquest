@@ -175,6 +175,11 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Chile.svg"
   },
   {
+    "id": "Q148",
+    "name": "China",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20People%27s%20Republic%20of%20China.svg"
+  },
+  {
     "id": "Q739",
     "name": "Colombia",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Colombia.svg"
@@ -675,6 +680,11 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Palau.svg"
   },
   {
+    "id": "Q219060",
+    "name": "Palestine",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Palestine.svg"
+  },
+  {
     "id": "Q804",
     "name": "Panama",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Panama.svg"
@@ -688,11 +698,6 @@
     "id": "Q733",
     "name": "Paraguay",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Paraguay.svg"
-  },
-  {
-    "id": "Q148",
-    "name": "People's Republic of China",
-    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20People%27s%20Republic%20of%20China.svg"
   },
   {
     "id": "Q419",
@@ -848,11 +853,6 @@
     "id": "Q854",
     "name": "Sri Lanka",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Sri%20Lanka.svg"
-  },
-  {
-    "id": "Q219060",
-    "name": "Palestine",
-    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Palestine.svg"
   },
   {
     "id": "Q1049",

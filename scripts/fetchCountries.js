@@ -47,22 +47,31 @@ async function fetchCountries() {
     flag: item.flag.value,
   }));
 
-  // Deduplicate by ID, preferring entries without UN flag
   const countryMap = new Map();
   for (const country of rawCountries) {
     const existing = countryMap.get(country.id);
     const currentHasUNFlag = country.flag.includes("United_Nations");
     const existingHasUNFlag = existing?.flag.includes("United_Nations");
 
-    // Keep current if: no existing entry, or current doesn't have UN flag but existing does
     if (!existing || (!currentHasUNFlag && existingHasUNFlag)) {
       countryMap.set(country.id, country);
     }
   }
 
-  const countries = Array.from(countryMap.values()).sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+  // Use more common names for certain countries
+  const nameMapping = {
+    "State of Palestine": "Palestine",
+    "People's Republic of China": "China",
+    "Republic of Korea": "South Korea",
+    "Democratic People's Republic of Korea": "North Korea",
+  };
+
+  const countries = Array.from(countryMap.values())
+    .map((country) => ({
+      ...country,
+      name: nameMapping[country.name] || country.name,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   console.log(`Found ${countries.length} unique countries`);
 
