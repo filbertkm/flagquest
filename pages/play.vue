@@ -199,6 +199,16 @@ main {
   justify-content: center;
 }
 
+nav a {
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+nav a:hover {
+  text-decoration: none;
+  opacity: 0.7;
+}
+
 nav button {
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
