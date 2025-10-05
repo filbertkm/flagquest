@@ -77,7 +77,7 @@ useSeoMeta({
   width: 100%;
   height: 100%;
   aspect-ratio: 3 / 2;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
   filter: blur(1px);
 }
