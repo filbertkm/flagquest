@@ -54,7 +54,7 @@ useSeoMeta({
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 80vh;
+  min-height: calc(100vh - 80px);
 }
 
 .flag-background {
