@@ -47,13 +47,33 @@ async function fetchCountries() {
 		flag: item.flag.value,
 	}));
 
+	const excludedCountries = ["Kingdom of Denmark"];
+
 	const countryMap = new Map();
 	for (const country of rawCountries) {
-		const existing = countryMap.get(country.id);
-		const currentHasUNFlag = country.flag.includes("United_Nations");
-		const existingHasUNFlag = existing?.flag.includes("United_Nations");
+		if (excludedCountries.includes(country.name)) continue;
 
-		if (!existing || (!currentHasUNFlag && existingHasUNFlag)) {
+		const existing = countryMap.get(country.id);
+		const currentHasUNFlag
+			= country.flag.includes("United_Nations") || country.flag.includes("UNMIK");
+		const existingHasUNFlag
+			= existing?.flag.includes("United_Nations")
+				|| existing?.flag.includes("UNMIK");
+
+		const currentHasOwnFlag = country.flag
+			.toLowerCase()
+			.includes(country.name.toLowerCase().replace(/\s+/g, "_"));
+		const existingHasOwnFlag = existing?.flag
+			.toLowerCase()
+			.includes(existing.name.toLowerCase().replace(/\s+/g, "_"));
+
+		if (!existing) {
+			countryMap.set(country.id, country);
+		}
+		else if (currentHasOwnFlag && !existingHasOwnFlag) {
+			countryMap.set(country.id, country);
+		}
+		else if (!currentHasUNFlag && existingHasUNFlag) {
 			countryMap.set(country.id, country);
 		}
 	}
