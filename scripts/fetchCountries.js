@@ -14,6 +14,16 @@ SELECT DISTINCT ?country ?countryLabel ?flag WHERE {
   {
     ?country wdt:P31 wd:Q3624078.
   }
+  UNION
+  {
+    VALUES ?country {
+      wd:Q21 wd:Q22 wd:Q25 wd:Q26
+      wd:Q223 wd:Q4628
+      wd:Q23635 wd:Q1410 wd:Q9648 wd:Q5785
+      wd:Q17070 wd:Q3769 wd:Q17054 wd:Q17012
+      wd:Q8646 wd:Q14773
+    }
+  }
   FILTER NOT EXISTS { ?country wdt:P31 wd:Q3024240. }
   FILTER NOT EXISTS { ?country wdt:P31 wd:Q15634554. }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }

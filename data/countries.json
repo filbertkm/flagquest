@@ -95,6 +95,11 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Benin.svg"
   },
   {
+    "id": "Q23635",
+    "name": "Bermuda",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Bermuda.svg"
+  },
+  {
     "id": "Q917",
     "name": "Bhutan",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Bhutan.svg"
@@ -158,6 +163,11 @@
     "id": "Q1011",
     "name": "Cape Verde",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Cape%20Verde.svg"
+  },
+  {
+    "id": "Q5785",
+    "name": "Cayman Islands",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Cayman%20Islands.svg"
   },
   {
     "id": "Q929",
@@ -260,6 +270,11 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20El%20Salvador.svg"
   },
   {
+    "id": "Q21",
+    "name": "England",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20England.svg"
+  },
+  {
     "id": "Q983",
     "name": "Equatorial Guinea",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Equatorial%20Guinea.svg"
@@ -285,6 +300,16 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Ethiopia.svg"
   },
   {
+    "id": "Q9648",
+    "name": "Falkland Islands",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Falkland%20Islands.svg"
+  },
+  {
+    "id": "Q4628",
+    "name": "Faroe Islands",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Faroe%20Islands.svg"
+  },
+  {
     "id": "Q702",
     "name": "Federated States of Micronesia",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Federated%20States%20of%20Micronesia.svg"
@@ -302,6 +327,11 @@
   {
     "id": "Q142",
     "name": "France",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20France.svg"
+  },
+  {
+    "id": "Q3769",
+    "name": "French Guiana",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20France.svg"
   },
   {
@@ -325,14 +355,29 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Ghana.svg"
   },
   {
+    "id": "Q1410",
+    "name": "Gibraltar",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Gibraltar.svg"
+  },
+  {
     "id": "Q41",
     "name": "Greece",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Greece.svg"
   },
   {
+    "id": "Q223",
+    "name": "Greenland",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Greenland.svg"
+  },
+  {
     "id": "Q769",
     "name": "Grenada",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Grenada.svg"
+  },
+  {
+    "id": "Q17012",
+    "name": "Guadeloupe",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Guadeloupe%20%28Local%29.svg"
   },
   {
     "id": "Q774",
@@ -363,6 +408,11 @@
     "id": "Q783",
     "name": "Honduras",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Honduras%20%282022%E2%80%93present%29.svg"
+  },
+  {
+    "id": "Q8646",
+    "name": "Hong Kong",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Hong%20Kong.svg"
   },
   {
     "id": "Q28",
@@ -505,6 +555,11 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Luxembourg.svg"
   },
   {
+    "id": "Q14773",
+    "name": "Macau",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Macau.svg"
+  },
+  {
     "id": "Q1019",
     "name": "Madagascar",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Madagascar.svg"
@@ -538,6 +593,11 @@
     "id": "Q709",
     "name": "Marshall Islands",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Marshall%20Islands.svg"
+  },
+  {
+    "id": "Q17054",
+    "name": "Martinique",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag-of-Martinique.svg"
   },
   {
     "id": "Q1025",
@@ -715,6 +775,11 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Republic%20of%20the%20Congo.svg"
   },
   {
+    "id": "Q17070",
+    "name": "Réunion",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Proposed%20flag%20of%20R%C3%A9union%20%28VAR%29.svg"
+  },
+  {
     "id": "Q218",
     "name": "Romania",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Romania.svg"
@@ -763,6 +828,11 @@
     "id": "Q851",
     "name": "Saudi Arabia",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Saudi%20Arabia.svg"
+  },
+  {
+    "id": "Q22",
+    "name": "Scotland",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Scotland.svg"
   },
   {
     "id": "Q1041",
@@ -988,6 +1058,11 @@
     "id": "Q881",
     "name": "Vietnam",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Vietnam.svg"
+  },
+  {
+    "id": "Q25",
+    "name": "Wales",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Wales.svg"
   },
   {
     "id": "Q805",
