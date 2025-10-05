@@ -6,6 +6,21 @@
 					<li>
 						<strong><NuxtLink to="/">FlagQuest</NuxtLink></strong>
 					</li>
+					<li class="mode-select-wrapper">
+						<label class="mode-label">Mode:</label>
+						<select
+							v-model="mode"
+							class="mode-select"
+							@change="switchMode(mode)"
+						>
+							<option value="countries">
+								World
+							</option>
+							<option value="states">
+								US & Canada
+							</option>
+						</select>
+					</li>
 					<li class="mode-tabs">
 						<button
 							:class="{ active: mode === 'countries' }"
@@ -22,14 +37,19 @@
 					</li>
 				</ul>
 				<ul>
-					<li>Accuracy: {{ accuracy }}%</li>
-					<li>Round: {{ round }}/{{ maxRounds }}</li>
+					<li class="stat-item">
+						<span class="stat-label">Accuracy: </span>{{ accuracy }}%
+					</li>
+					<li class="stat-item">
+						<span class="stat-label">Round: </span>{{ round }}/{{ maxRounds }}
+					</li>
 					<li>
 						<button
 							class="secondary outline"
 							@click="startOver"
 						>
-							Start Over
+							<span class="btn-text-full">Start Over</span>
+							<span class="btn-text-short">Restart</span>
 						</button>
 					</li>
 				</ul>
@@ -52,6 +72,7 @@
 				>
 					<div class="autocomplete-wrapper">
 						<input
+							ref="inputRef"
 							v-model="guess"
 							type="text"
 							placeholder="Enter country or territory name..."
@@ -119,7 +140,10 @@
 							rel="noopener"
 						>{{ currentCountry.name }}</a></strong>
 					</p>
-					<button @click="nextRound">
+					<button
+						ref="nextButtonRef"
+						@click="nextRound"
+					>
 						{{ round >= maxRounds ? "View Results" : "Next Flag" }}
 					</button>
 				</div>
@@ -132,7 +156,53 @@
 				<h2>Game Over!</h2>
 				<p>Final Accuracy: {{ accuracy }}%</p>
 				<p>Correct answers: {{ correctAnswers }} / {{ maxRounds }}</p>
+
+				<div class="game-summary">
+					<h3>Game Summary</h3>
+					<div class="summary-grid">
+						<div
+							v-for="(result, index) in gameHistory"
+							:key="index"
+							:class="[
+								'summary-item',
+								result.correct ? 'correct' : 'incorrect',
+							]"
+						>
+							<div class="summary-flag">
+								<img
+									:src="result.country.flag"
+									:alt="result.country.name"
+								>
+							</div>
+							<div class="summary-details">
+								<div class="summary-name">
+									{{ result.country.name }}
+								</div>
+								<div class="summary-result">
+									<span
+										v-if="result.correct"
+										class="result-icon"
+									>✓</span>
+									<span
+										v-else
+										class="result-icon"
+									>✗</span>
+									<span
+										v-if="!result.correct && result.userGuess"
+										class="user-guess"
+									>{{ result.userGuess }}</span>
+									<span
+										v-else-if="!result.correct"
+										class="user-guess"
+									>Skipped</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<NuxtLink
+					ref="playAgainRef"
 					to="/"
 					role="button"
 				>Play Again</NuxtLink>
@@ -143,15 +213,12 @@
 
 <script setup lang="ts">
 import type { Country } from "~/types";
+import countriesData from "~/data/countries.json";
+import statesData from "~/data/states.json";
 
 defineOptions({
 	name: "PlayPage",
 });
-
-const countriesData = await import("~/data/countries.json").then(
-	m => m.default,
-);
-const statesData = await import("~/data/states.json").then(m => m.default);
 
 const mode = ref<"countries" | "states">("countries");
 const countries = computed(() =>
@@ -168,6 +235,16 @@ const isCorrect = ref(false);
 const usedCountries = ref(new Set());
 const showSuggestions = ref(false);
 const selectedIndex = ref(-1);
+const inputRef = ref<HTMLInputElement | null>(null);
+const nextButtonRef = ref<HTMLButtonElement | null>(null);
+const playAgainRef = ref<{ $el: HTMLElement } | null>(null);
+
+interface GameRound {
+	country: Country;
+	correct: boolean;
+	userGuess: string;
+}
+const gameHistory = ref<GameRound[]>([]);
 
 // normalize string for case-insensitive matching and diacritic marks
 const normalizeString = (str: string) => {
@@ -230,16 +307,35 @@ function submitGuess() {
 	}
 
 	showAnswer.value = true;
+
+	nextTick(() => {
+		nextButtonRef.value?.focus();
+	});
 }
 
 function showCurrentAnswer() {
 	isCorrect.value = false;
 	showAnswer.value = true;
+
+	nextTick(() => {
+		nextButtonRef.value?.focus();
+	});
 }
 
 function nextRound() {
+	if (currentCountry.value) {
+		gameHistory.value.push({
+			country: currentCountry.value,
+			correct: isCorrect.value,
+			userGuess: guess.value.trim(),
+		});
+	}
+
 	if (round.value >= maxRounds) {
 		currentCountry.value = null;
+		nextTick(() => {
+			playAgainRef.value?.$el?.focus();
+		});
 		return;
 	}
 
@@ -248,6 +344,10 @@ function nextRound() {
 	showAnswer.value = false;
 	isCorrect.value = false;
 	currentCountry.value = getRandomCountry();
+
+	nextTick(() => {
+		inputRef.value?.focus();
+	});
 }
 
 function selectCountry(name: string) {
@@ -284,7 +384,10 @@ function handleKeyDown(event: KeyboardEvent) {
 		case "Enter":
 			if (selectedIndex.value >= 0 && selectedIndex.value <= maxIndex) {
 				event.preventDefault();
-				selectCountry(filteredCountries.value[selectedIndex.value].name);
+				const selectedCountry = filteredCountries.value[selectedIndex.value];
+				if (selectedCountry) {
+					selectCountry(selectedCountry.name);
+				}
 			}
 			break;
 		case "Escape":
@@ -304,11 +407,31 @@ function startOver() {
 	usedCountries.value = new Set();
 	showSuggestions.value = false;
 	selectedIndex.value = -1;
+	gameHistory.value = [];
 	currentCountry.value = getRandomCountry();
+
+	nextTick(() => {
+		inputRef.value?.focus();
+	});
+}
+
+function handleGlobalKeyDown(event: KeyboardEvent) {
+	if (showAnswer.value && event.key === "ArrowRight") {
+		event.preventDefault();
+		nextRound();
+	}
 }
 
 onMounted(() => {
 	currentCountry.value = getRandomCountry();
+	nextTick(() => {
+		inputRef.value?.focus();
+	});
+	window.addEventListener("keydown", handleGlobalKeyDown);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("keydown", handleGlobalKeyDown);
 });
 </script>
 
@@ -317,6 +440,10 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+header {
+  padding-top: 1rem;
 }
 
 main {
@@ -337,25 +464,96 @@ nav a:hover {
 }
 
 nav button {
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
   margin: 0;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  nav button {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+header nav {
+  font-size: 0.875rem;
+}
+
+header nav ul {
+  gap: 0.5rem;
+}
+
+header nav ul li {
+  padding: 0;
+}
+
+.stat-label {
+  display: none;
+}
+
+.btn-text-short {
+  display: inline;
+}
+
+.btn-text-full {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .stat-label {
+    display: inline;
+  }
+
+  .btn-text-short {
+    display: none;
+  }
+
+  .btn-text-full {
+    display: inline;
+  }
+}
+
+.mode-select-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.mode-label {
+  font-size: 0.75rem;
+  margin: 0;
+  white-space: nowrap;
+  color: var(--pico-muted-color);
+}
+
+.mode-select {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  margin: 0;
+  min-width: auto;
+  width: auto;
+  font-weight: 600;
+  border: 2px solid var(--pico-primary);
+  background-color: var(--pico-primary-focus);
 }
 
 .mode-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-left: 1rem;
+  display: none;
+  gap: 0.35rem;
+  margin-left: 0.5rem;
 }
 
 .mode-tabs button {
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
   background: transparent;
   border: 1px solid var(--pico-border-color);
   color: var(--pico-color);
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .mode-tabs button:hover {
@@ -366,6 +564,27 @@ nav button {
   background: var(--pico-primary);
   border-color: var(--pico-primary);
   color: var(--pico-primary-inverse);
+}
+
+@media (min-width: 768px) {
+  header nav {
+    font-size: 1rem;
+  }
+
+  .mode-select-wrapper {
+    display: none;
+  }
+
+  .mode-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .mode-tabs button {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
 }
 
 article {
@@ -453,5 +672,134 @@ article {
 
 .results {
   text-align: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.results h2 {
+  margin-bottom: 0.5rem;
+}
+
+.results p {
+  margin-bottom: 0.5rem;
+}
+
+.game-summary {
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.game-summary h3 {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 576px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .summary-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .summary-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 1400px) {
+  .summary-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+}
+
+.summary-item {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: var(--pico-border-radius);
+  border: 2px solid transparent;
+  background: var(--pico-card-background-color);
+}
+
+.summary-item.correct {
+  border-color: var(--pico-color-green-500, #4caf50);
+}
+
+.summary-item.incorrect {
+  border-color: var(--pico-color-red-500, #f44336);
+}
+
+.summary-flag {
+  flex-shrink: 0;
+  width: 70px;
+  height: 50px;
+}
+
+.summary-flag img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--pico-muted-border-color);
+}
+
+.summary-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.summary-name {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.summary-result {
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.result-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.summary-item.correct .result-icon {
+  color: var(--pico-color-green-500, #4caf50);
+}
+
+.summary-item.incorrect .result-icon {
+  color: var(--pico-color-red-500, #f44336);
+}
+
+.user-guess {
+  color: var(--pico-muted-color);
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
