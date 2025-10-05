@@ -48,11 +48,7 @@
             <input
               v-model="guess"
               type="text"
-              :placeholder="
-                mode === 'countries'
-                  ? 'Enter country name...'
-                  : 'Enter state/province name...'
-              "
+              placeholder="Enter country or territory name..."
               autocomplete="off"
               @keyup.enter="submitGuess"
               @input="showSuggestions = true"
