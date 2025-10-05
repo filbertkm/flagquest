@@ -60,12 +60,20 @@
 							</li>
 						</ul>
 					</div>
-					<button
-						:disabled="!guess.trim()"
-						@click="submitGuess"
-					>
-						Submit
-					</button>
+					<div class="button-container">
+						<button
+							class="secondary"
+							@click="showCurrentAnswer"
+						>
+							Give Up
+						</button>
+						<button
+							:disabled="!guess.trim()"
+							@click="submitGuess"
+						>
+							Submit
+						</button>
+					</div>
 				</div>
 
 				<div
@@ -167,6 +175,11 @@ function submitGuess() {
 	showAnswer.value = true;
 }
 
+function showCurrentAnswer() {
+	isCorrect.value = false;
+	showAnswer.value = true;
+}
+
 function nextRound() {
 	if (round.value >= maxRounds) {
 		currentCountry.value = null;
@@ -245,6 +258,15 @@ article {
 
 .input-section {
   width: 100%;
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.button-container button {
+  flex: 1;
 }
 
 .autocomplete-wrapper {
