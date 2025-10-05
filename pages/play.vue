@@ -1,96 +1,118 @@
 <template>
-  <div class="game-layout">
-    <header class="container">
-      <nav>
-        <ul>
-          <li>
-            <strong><NuxtLink to="/">FlagQuest</NuxtLink></strong>
-          </li>
-        </ul>
-        <ul>
-          <li>Accuracy: {{ accuracy }}%</li>
-          <li>Round: {{ round }}/{{ maxRounds }}</li>
-          <li>
-            <button class="secondary outline" @click="startOver">
-              Start Over
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </header>
+	<div class="game-layout">
+		<header class="container">
+			<nav>
+				<ul>
+					<li>
+						<strong><NuxtLink to="/">FlagQuest</NuxtLink></strong>
+					</li>
+				</ul>
+				<ul>
+					<li>Accuracy: {{ accuracy }}%</li>
+					<li>Round: {{ round }}/{{ maxRounds }}</li>
+					<li>
+						<button
+							class="secondary outline"
+							@click="startOver"
+						>
+							Start Over
+						</button>
+					</li>
+				</ul>
+			</nav>
+		</header>
 
-    <main class="container">
-      <article v-if="currentCountry">
-        <h2>What country is this flag from?</h2>
-        <div class="flag-container">
-          <img
-            :src="currentCountry.flag"
-            :alt="`Flag of ${showAnswer ? currentCountry.name : '???'}`"
-          />
-        </div>
+		<main class="container">
+			<article v-if="currentCountry">
+				<h2>What country is this flag from?</h2>
+				<div class="flag-container">
+					<img
+						:src="currentCountry.flag"
+						:alt="`Flag of ${showAnswer ? currentCountry.name : '???'}`"
+					>
+				</div>
 
-        <div v-if="!showAnswer" class="input-section">
-          <div class="autocomplete-wrapper">
-            <input
-              v-model="guess"
-              type="text"
-              placeholder="Enter country name..."
-              autocomplete="off"
-              @keyup.enter="submitGuess"
-              @input="showSuggestions = true"
-              @blur="hideSuggestions"
-              @focus="showSuggestions = true"
-            />
-            <ul
-              v-if="showSuggestions && filteredCountries.length > 0"
-              class="suggestions"
-            >
-              <li
-                v-for="country in filteredCountries.slice(0, 5)"
-                :key="country.id"
-                @mousedown.prevent="selectCountry(country.name)"
-              >
-                {{ country.name }}
-              </li>
-            </ul>
-          </div>
-          <button :disabled="!guess.trim()" @click="submitGuess">Submit</button>
-        </div>
+				<div
+					v-if="!showAnswer"
+					class="input-section"
+				>
+					<div class="autocomplete-wrapper">
+						<input
+							v-model="guess"
+							type="text"
+							placeholder="Enter country name..."
+							autocomplete="off"
+							@keyup.enter="submitGuess"
+							@input="showSuggestions = true"
+							@blur="hideSuggestions"
+							@focus="showSuggestions = true"
+						>
+						<ul
+							v-if="showSuggestions && filteredCountries.length > 0"
+							class="suggestions"
+						>
+							<li
+								v-for="country in filteredCountries.slice(0, 5)"
+								:key="country.id"
+								@mousedown.prevent="selectCountry(country.name)"
+							>
+								{{ country.name }}
+							</li>
+						</ul>
+					</div>
+					<button
+						:disabled="!guess.trim()"
+						@click="submitGuess"
+					>
+						Submit
+					</button>
+				</div>
 
-        <div v-else class="result">
-          <h3 :class="isCorrect ? 'correct' : 'incorrect'">
-            {{ isCorrect ? "Correct! ✓" : "Incorrect ✗" }}
-          </h3>
-          <p>
-            The answer is: <strong>{{ currentCountry.name }}</strong>
-          </p>
-          <button @click="nextRound">
-            {{ round >= maxRounds ? "View Results" : "Next Flag" }}
-          </button>
-        </div>
-      </article>
+				<div
+					v-else
+					class="result"
+				>
+					<h3 :class="isCorrect ? 'correct' : 'incorrect'">
+						{{ isCorrect ? "Correct! ✓" : "Incorrect ✗" }}
+					</h3>
+					<p>
+						The answer is: <strong>{{ currentCountry.name }}</strong>
+					</p>
+					<button @click="nextRound">
+						{{ round >= maxRounds ? "View Results" : "Next Flag" }}
+					</button>
+				</div>
+			</article>
 
-      <article v-else class="results">
-        <h2>Game Over!</h2>
-        <p>Final Accuracy: {{ accuracy }}%</p>
-        <p>Correct answers: {{ correctAnswers }} / {{ maxRounds }}</p>
-        <NuxtLink to="/" role="button">Play Again</NuxtLink>
-      </article>
-    </main>
-  </div>
+			<article
+				v-else
+				class="results"
+			>
+				<h2>Game Over!</h2>
+				<p>Final Accuracy: {{ accuracy }}%</p>
+				<p>Correct answers: {{ correctAnswers }} / {{ maxRounds }}</p>
+				<NuxtLink
+					to="/"
+					role="button"
+				>Play Again</NuxtLink>
+			</article>
+		</main>
+	</div>
 </template>
 
 <script setup lang="ts">
+import type { Country } from "~/types";
+
 defineOptions({
-  name: "PlayPage",
+	name: "PlayPage",
 });
 
-const countries = await import("~/data/countries.json").then((m) => m.default);
+const countries = await import("~/data/countries.json").then(m => m.default);
 
 const maxRounds = 10;
 const round = ref(1);
 const correctAnswers = ref(0);
-const currentCountry = ref(null);
+const currentCountry = ref<Country | null>(null);
 const guess = ref("");
 const showAnswer = ref(false);
 const isCorrect = ref(false);
@@ -98,90 +120,90 @@ const usedCountries = ref(new Set());
 const showSuggestions = ref(false);
 
 const filteredCountries = computed(() => {
-  if (!guess.value || guess.value.length < 1) return [];
-  const searchTerm = guess.value.toLowerCase();
+	if (!guess.value || guess.value.length < 1) return [];
+	const searchTerm = guess.value.toLowerCase();
 
-  // Prioritize prefix matches, then include contains matches
-  const startsWithMatches = countries.filter((c) =>
-    c.name.toLowerCase().startsWith(searchTerm)
-  );
-  const containsMatches = countries.filter(
-    (c) =>
-      !c.name.toLowerCase().startsWith(searchTerm) &&
-      c.name.toLowerCase().includes(searchTerm)
-  );
+	// Prioritize prefix matches, then include contains matches
+	const startsWithMatches = countries.filter(c =>
+		c.name.toLowerCase().startsWith(searchTerm),
+	);
+	const containsMatches = countries.filter(
+		c =>
+			!c.name.toLowerCase().startsWith(searchTerm)
+			&& c.name.toLowerCase().includes(searchTerm),
+	);
 
-  return [...startsWithMatches, ...containsMatches];
+	return [...startsWithMatches, ...containsMatches];
 });
 
 const accuracy = computed(() => {
-  if (round.value === 1 && !showAnswer.value) return 0;
-  const answeredRounds = showAnswer.value ? round.value : round.value - 1;
-  return answeredRounds > 0
-    ? Math.round((correctAnswers.value / answeredRounds) * 100)
-    : 0;
+	if (round.value === 1 && !showAnswer.value) return 0;
+	const answeredRounds = showAnswer.value ? round.value : round.value - 1;
+	return answeredRounds > 0
+		? Math.round((correctAnswers.value / answeredRounds) * 100)
+		: 0;
 });
 
-function getRandomCountry() {
-  const available = countries.filter((c) => !usedCountries.value.has(c.id));
-  if (available.length === 0) return null;
-  const country = available[Math.floor(Math.random() * available.length)];
-  usedCountries.value.add(country.id);
-  return country;
+function getRandomCountry(): Country | null {
+	const available = countries.filter(c => !usedCountries.value.has(c.id));
+	if (available.length === 0) return null;
+	const country = available[Math.floor(Math.random() * available.length)]!;
+	usedCountries.value.add(country.id);
+	return country;
 }
 
 function submitGuess() {
-  if (!guess.value.trim()) return;
+	if (!guess.value.trim() || !currentCountry.value) return;
 
-  const userGuess = guess.value.trim().toLowerCase();
-  const correctName = currentCountry.value.name.toLowerCase();
+	const userGuess = guess.value.trim().toLowerCase();
+	const correctName = currentCountry.value.name.toLowerCase();
 
-  isCorrect.value = userGuess === correctName;
+	isCorrect.value = userGuess === correctName;
 
-  if (isCorrect.value) {
-    correctAnswers.value++;
-  }
+	if (isCorrect.value) {
+		correctAnswers.value++;
+	}
 
-  showAnswer.value = true;
+	showAnswer.value = true;
 }
 
 function nextRound() {
-  if (round.value >= maxRounds) {
-    currentCountry.value = null;
-    return;
-  }
+	if (round.value >= maxRounds) {
+		currentCountry.value = null;
+		return;
+	}
 
-  round.value++;
-  guess.value = "";
-  showAnswer.value = false;
-  isCorrect.value = false;
-  currentCountry.value = getRandomCountry();
+	round.value++;
+	guess.value = "";
+	showAnswer.value = false;
+	isCorrect.value = false;
+	currentCountry.value = getRandomCountry();
 }
 
-function selectCountry(name) {
-  guess.value = name;
-  showSuggestions.value = false;
+function selectCountry(name: string) {
+	guess.value = name;
+	showSuggestions.value = false;
 }
 
 function hideSuggestions() {
-  setTimeout(() => {
-    showSuggestions.value = false;
-  }, 200);
+	setTimeout(() => {
+		showSuggestions.value = false;
+	}, 200);
 }
 
 function startOver() {
-  round.value = 1;
-  correctAnswers.value = 0;
-  guess.value = "";
-  showAnswer.value = false;
-  isCorrect.value = false;
-  usedCountries.value = new Set();
-  showSuggestions.value = false;
-  currentCountry.value = getRandomCountry();
+	round.value = 1;
+	correctAnswers.value = 0;
+	guess.value = "";
+	showAnswer.value = false;
+	isCorrect.value = false;
+	usedCountries.value = new Set();
+	showSuggestions.value = false;
+	currentCountry.value = getRandomCountry();
 }
 
 onMounted(() => {
-  currentCountry.value = getRandomCountry();
+	currentCountry.value = getRandomCountry();
 });
 </script>
 
