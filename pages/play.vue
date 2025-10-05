@@ -1,215 +1,194 @@
 <template>
-	<div class="game-layout">
-		<header class="container">
-			<nav>
-				<ul>
-					<li>
-						<strong><NuxtLink to="/">FlagQuest</NuxtLink></strong>
-					</li>
-					<li class="mode-select-wrapper">
-						<label class="mode-label">Mode:</label>
-						<select
-							v-model="mode"
-							class="mode-select"
-							@change="switchMode(mode)"
-						>
-							<option value="countries">
-								World
-							</option>
-							<option value="states">
-								US & Canada
-							</option>
-						</select>
-					</li>
-					<li class="mode-tabs">
-						<button
-							:class="{ active: mode === 'countries' }"
-							@click="switchMode('countries')"
-						>
-							World
-						</button>
-						<button
-							:class="{ active: mode === 'states' }"
-							@click="switchMode('states')"
-						>
-							US & Canada
-						</button>
-					</li>
-				</ul>
-				<ul>
-					<li class="stat-item">
-						<span class="stat-label">Accuracy: </span>{{ accuracy }}%
-					</li>
-					<li class="stat-item">
-						<span class="stat-label">Round: </span>{{ round }}/{{ maxRounds }}
-					</li>
-					<li>
-						<button
-							class="secondary outline"
-							@click="startOver"
-						>
-							<span class="btn-text-full">Start Over</span>
-							<span class="btn-text-short">Restart</span>
-						</button>
-					</li>
-				</ul>
-			</nav>
-		</header>
+  <div class="game-layout">
+    <header class="container">
+      <nav>
+        <ul>
+          <li>
+            <strong><NuxtLink to="/">FlagQuest</NuxtLink></strong>
+          </li>
+          <li class="mode-select-wrapper">
+            <label class="mode-label">Mode:</label>
+            <select
+              v-model="mode"
+              class="mode-select"
+              @change="switchMode(mode)"
+            >
+              <option value="countries">World</option>
+              <option value="states">US & Canada</option>
+            </select>
+          </li>
+          <li class="mode-tabs">
+            <button
+              :class="{ active: mode === 'countries' }"
+              @click="switchMode('countries')"
+            >
+              World
+            </button>
+            <button
+              :class="{ active: mode === 'states' }"
+              @click="switchMode('states')"
+            >
+              US & Canada
+            </button>
+          </li>
+        </ul>
+        <ul>
+          <li class="stat-item">
+            <span class="stat-label">Accuracy: </span>{{ accuracy }}%
+          </li>
+          <li class="stat-item">
+            <span class="stat-label">Round: </span>{{ round }}/{{ maxRounds }}
+          </li>
+          <li>
+            <button class="secondary outline" @click="startOver">
+              <span class="btn-text-full">Start Over</span>
+              <span class="btn-text-short">Restart</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-		<main class="container">
-			<article v-if="currentCountry">
-				<h2>Which flag is this?</h2>
-				<div class="flag-container">
-					<img
-						:src="currentCountry.flag"
-						:alt="`Flag of ${showAnswer ? currentCountry.name : '???'}`"
-					>
-				</div>
+    <main class="container">
+      <article v-if="currentCountry">
+        <h2>Which flag is this?</h2>
+        <div class="flag-container">
+          <img
+            :src="currentCountry.flag"
+            :alt="`Flag of ${showAnswer ? currentCountry.name : '???'}`"
+          />
+        </div>
 
-				<div
-					v-if="!showAnswer"
-					class="input-section"
-				>
-					<div class="autocomplete-wrapper">
-						<input
-							ref="inputRef"
-							v-model="guess"
-							type="text"
-							placeholder="Enter country or territory name..."
-							autocomplete="off"
-							role="combobox"
-							aria-autocomplete="list"
-							:aria-expanded="showSuggestions && filteredCountries.length > 0"
-							aria-controls="suggestions-list"
-							@keydown="handleKeyDown"
-							@keyup.enter="submitGuess"
-							@input="
-								showSuggestions = true;
-								selectedIndex = -1;
-							"
-							@blur="hideSuggestions"
-							@focus="showSuggestions = true"
-						>
-						<ul
-							v-if="showSuggestions && filteredCountries.length > 0"
-							id="suggestions-list"
-							class="suggestions"
-							role="listbox"
-						>
-							<li
-								v-for="(country, index) in filteredCountries.slice(0, 5)"
-								:key="country.id"
-								:class="{ selected: index === selectedIndex }"
-								role="option"
-								:aria-selected="index === selectedIndex"
-								@mousedown.prevent="selectCountry(country.name)"
-								@mouseenter="selectedIndex = index"
-							>
-								{{ country.name }}
-							</li>
-						</ul>
-					</div>
-					<div class="button-container">
-						<button
-							class="secondary"
-							@click="showCurrentAnswer"
-						>
-							Skip
-						</button>
-						<button
-							:disabled="!guess.trim()"
-							@click="submitGuess"
-						>
-							Submit
-						</button>
-					</div>
-				</div>
+        <div v-if="!showAnswer" class="input-section">
+          <div class="autocomplete-wrapper">
+            <input
+              ref="inputRef"
+              v-model="guess"
+              type="text"
+              placeholder="Enter country or territory name..."
+              autocomplete="off"
+              role="combobox"
+              aria-autocomplete="list"
+              :aria-expanded="showSuggestions && filteredCountries.length > 0"
+              aria-controls="suggestions-list"
+              @keydown="handleKeyDown"
+              @keyup.enter="submitGuess"
+              @input="
+                showSuggestions = true;
+                selectedIndex = -1;
+              "
+              @blur="hideSuggestions"
+              @focus="showSuggestions = true"
+            />
+            <ul
+              v-if="showSuggestions && filteredCountries.length > 0"
+              id="suggestions-list"
+              class="suggestions"
+              role="listbox"
+            >
+              <li
+                v-for="(country, index) in filteredCountries.slice(0, 5)"
+                :key="country.id"
+                :class="{ selected: index === selectedIndex }"
+                role="option"
+                :aria-selected="index === selectedIndex"
+                @mousedown.prevent="selectCountry(country.name)"
+                @mouseenter="selectedIndex = index"
+              >
+                {{ country.name }}
+              </li>
+            </ul>
+          </div>
+          <div class="button-container">
+            <button class="secondary" @click="showCurrentAnswer">Skip</button>
+            <button :disabled="!guess.trim()" @click="submitGuess">
+              Submit
+            </button>
+          </div>
+        </div>
 
-				<div
-					v-else
-					class="result"
-				>
-					<h3 :class="isCorrect ? 'correct' : 'incorrect'">
-						{{ isCorrect ? "Correct! ✓" : "Incorrect ✗" }}
-					</h3>
-					<p>
-						The answer is:
-						<strong><a
-							:href="`https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/${currentCountry.id}`"
-							target="_blank"
-							rel="noopener"
-						>{{ currentCountry.name }}</a></strong>
-					</p>
-					<button
-						ref="nextButtonRef"
-						@click="nextRound"
-					>
-						{{ round >= maxRounds ? "View Results" : "Next Flag" }}
-					</button>
-				</div>
-			</article>
+        <div v-else class="result">
+          <h3 :class="isCorrect ? 'correct' : 'incorrect'">
+            {{ isCorrect ? "Correct! ✓" : "Incorrect ✗" }}
+          </h3>
+          <p>
+            The answer is:
+            <strong
+              ><a
+                :href="`https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/${currentCountry.id}`"
+                target="_blank"
+                rel="noopener"
+                >{{ currentCountry.name }}</a
+              ></strong
+            >
+          </p>
+          <p class="flag-source">
+            <small>
+              <a
+                :href="getFlagCommonsUrl(currentCountry.flag)"
+                target="_blank"
+                rel="noopener"
+                >Flag image source</a
+              >
+            </small>
+          </p>
+          <button ref="nextButtonRef" @click="nextRound">
+            {{ round >= maxRounds ? "View Results" : "Next Flag" }}
+          </button>
+        </div>
+      </article>
 
-			<article
-				v-else
-				class="results"
-			>
-				<h2>Game Over!</h2>
-				<p>Final Accuracy: {{ accuracy }}%</p>
-				<p>Correct answers: {{ correctAnswers }} / {{ maxRounds }}</p>
+      <article v-else class="results">
+        <h2>Game Over!</h2>
+        <p>Final Accuracy: {{ accuracy }}%</p>
+        <p>Correct answers: {{ correctAnswers }} / {{ maxRounds }}</p>
 
-				<div class="game-summary">
-					<h3>Game Summary</h3>
-					<div class="summary-grid">
-						<div
-							v-for="(result, index) in gameHistory"
-							:key="index"
-							:class="[
-								'summary-item',
-								result.correct ? 'correct' : 'incorrect',
-							]"
-						>
-							<div class="summary-flag">
-								<img
-									:src="result.country.flag"
-									:alt="result.country.name"
-								>
-							</div>
-							<div class="summary-details">
-								<div class="summary-name">
-									{{ result.country.name }}
-								</div>
-								<div class="summary-result">
-									<span
-										v-if="result.correct"
-										class="result-icon"
-									>✓</span>
-									<span
-										v-else
-										class="result-icon"
-									>✗</span>
-									<span
-										v-if="!result.correct && result.userGuess"
-										class="user-guess"
-									>{{ result.userGuess }}</span>
-									<span
-										v-else-if="!result.correct"
-										class="user-guess"
-									>Skipped</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+        <div class="game-summary">
+          <h3>Game Summary</h3>
+          <div class="summary-grid">
+            <div
+              v-for="(result, index) in gameHistory"
+              :key="index"
+              :class="[
+                'summary-item',
+                result.correct ? 'correct' : 'incorrect',
+              ]"
+            >
+              <div class="summary-flag">
+                <a
+                  :href="getFlagCommonsUrl(result.country.flag)"
+                  target="_blank"
+                  rel="noopener"
+                  :title="`View flag image source for ${result.country.name}`"
+                >
+                  <img :src="result.country.flag" :alt="result.country.name" />
+                </a>
+              </div>
+              <div class="summary-details">
+                <div class="summary-name">
+                  {{ result.country.name }}
+                </div>
+                <div class="summary-result">
+                  <span v-if="result.correct" class="result-icon">✓</span>
+                  <span v-else class="result-icon">✗</span>
+                  <span
+                    v-if="!result.correct && result.userGuess"
+                    class="user-guess"
+                    >{{ result.userGuess }}</span
+                  >
+                  <span v-else-if="!result.correct" class="user-guess"
+                    >Skipped</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-				<button
-					ref="playAgainRef"
-					@click="startOver"
-				>
-					Play Again
-				</button>
-			</article>
-		</main>
-	</div>
+        <button ref="playAgainRef" @click="startOver">Play Again</button>
+      </article>
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -218,12 +197,12 @@ import countriesData from "~/data/countries.json";
 import statesData from "~/data/states.json";
 
 defineOptions({
-	name: "PlayPage",
+  name: "PlayPage",
 });
 
 const mode = ref<"countries" | "states">("countries");
 const countries = computed(() =>
-	mode.value === "countries" ? countriesData : statesData,
+  mode.value === "countries" ? countriesData : statesData
 );
 
 const maxRounds = 10;
@@ -241,198 +220,204 @@ const nextButtonRef = ref<HTMLButtonElement | null>(null);
 const playAgainRef = ref<HTMLButtonElement | null>(null);
 
 interface GameRound {
-	country: Country;
-	correct: boolean;
-	userGuess: string;
+  country: Country;
+  correct: boolean;
+  userGuess: string;
 }
 const gameHistory = ref<GameRound[]>([]);
 
 // normalize string for case-insensitive matching and diacritic marks
 const normalizeString = (str: string) => {
-	return str
-		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, "")
-		.toLowerCase();
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+};
+
+// convert flag URL to Wikimedia Commons page
+const getFlagCommonsUrl = (flagUrl: string) => {
+  const filename = flagUrl.split("/").pop();
+  return `https://commons.wikimedia.org/wiki/File:${filename}`;
 };
 
 const filteredCountries = computed(() => {
-	if (!guess.value || guess.value.length < 1) return [];
-	const searchTerm = normalizeString(guess.value);
+  if (!guess.value || guess.value.length < 1) return [];
+  const searchTerm = normalizeString(guess.value);
 
-	// Prioritize prefix matches, then include contains matches
-	const startsWithMatches = countries.value.filter(c =>
-		normalizeString(c.name).startsWith(searchTerm),
-	);
-	const containsMatches = countries.value.filter(
-		c =>
-			!normalizeString(c.name).startsWith(searchTerm)
-			&& normalizeString(c.name).includes(searchTerm),
-	);
+  // Prioritize prefix matches, then include contains matches
+  const startsWithMatches = countries.value.filter((c) =>
+    normalizeString(c.name).startsWith(searchTerm)
+  );
+  const containsMatches = countries.value.filter(
+    (c) =>
+      !normalizeString(c.name).startsWith(searchTerm) &&
+      normalizeString(c.name).includes(searchTerm)
+  );
 
-	return [...startsWithMatches, ...containsMatches];
+  return [...startsWithMatches, ...containsMatches];
 });
 
 const accuracy = computed(() => {
-	if (round.value === 1 && !showAnswer.value) return 0;
-	const answeredRounds = showAnswer.value ? round.value : round.value - 1;
-	return answeredRounds > 0
-		? Math.round((correctAnswers.value / answeredRounds) * 100)
-		: 0;
+  if (round.value === 1 && !showAnswer.value) return 0;
+  const answeredRounds = showAnswer.value ? round.value : round.value - 1;
+  return answeredRounds > 0
+    ? Math.round((correctAnswers.value / answeredRounds) * 100)
+    : 0;
 });
 
 function getRandomCountry(): Country | null {
-	const available = countries.value.filter(
-		c => !usedCountries.value.has(c.id),
-	);
-	if (available.length === 0) return null;
-	const country = available[Math.floor(Math.random() * available.length)]!;
-	usedCountries.value.add(country.id);
-	return country;
+  const available = countries.value.filter(
+    (c) => !usedCountries.value.has(c.id)
+  );
+  if (available.length === 0) return null;
+  const country = available[Math.floor(Math.random() * available.length)]!;
+  usedCountries.value.add(country.id);
+  return country;
 }
 
 function switchMode(newMode: "countries" | "states") {
-	mode.value = newMode;
-	startOver();
+  mode.value = newMode;
+  startOver();
 }
 
 function submitGuess() {
-	if (!guess.value.trim() || !currentCountry.value) return;
+  if (!guess.value.trim() || !currentCountry.value) return;
 
-	const userGuess = normalizeString(guess.value.trim());
-	const correctName = normalizeString(currentCountry.value.name);
+  const userGuess = normalizeString(guess.value.trim());
+  const correctName = normalizeString(currentCountry.value.name);
 
-	isCorrect.value = userGuess === correctName;
+  isCorrect.value = userGuess === correctName;
 
-	if (isCorrect.value) {
-		correctAnswers.value++;
-	}
+  if (isCorrect.value) {
+    correctAnswers.value++;
+  }
 
-	showAnswer.value = true;
+  showAnswer.value = true;
 
-	nextTick(() => {
-		nextButtonRef.value?.focus();
-	});
+  nextTick(() => {
+    nextButtonRef.value?.focus();
+  });
 }
 
 function showCurrentAnswer() {
-	isCorrect.value = false;
-	showAnswer.value = true;
+  isCorrect.value = false;
+  showAnswer.value = true;
 
-	nextTick(() => {
-		nextButtonRef.value?.focus();
-	});
+  nextTick(() => {
+    nextButtonRef.value?.focus();
+  });
 }
 
 function nextRound() {
-	if (currentCountry.value) {
-		gameHistory.value.push({
-			country: currentCountry.value,
-			correct: isCorrect.value,
-			userGuess: guess.value.trim(),
-		});
-	}
+  if (currentCountry.value) {
+    gameHistory.value.push({
+      country: currentCountry.value,
+      correct: isCorrect.value,
+      userGuess: guess.value.trim(),
+    });
+  }
 
-	if (round.value >= maxRounds) {
-		currentCountry.value = null;
-		nextTick(() => {
-			playAgainRef.value?.focus();
-		});
-		return;
-	}
+  if (round.value >= maxRounds) {
+    currentCountry.value = null;
+    nextTick(() => {
+      playAgainRef.value?.focus();
+    });
+    return;
+  }
 
-	round.value++;
-	guess.value = "";
-	showAnswer.value = false;
-	isCorrect.value = false;
-	currentCountry.value = getRandomCountry();
+  round.value++;
+  guess.value = "";
+  showAnswer.value = false;
+  isCorrect.value = false;
+  currentCountry.value = getRandomCountry();
 
-	nextTick(() => {
-		inputRef.value?.focus();
-	});
+  nextTick(() => {
+    inputRef.value?.focus();
+  });
 }
 
 function selectCountry(name: string) {
-	guess.value = name;
-	showSuggestions.value = false;
-	selectedIndex.value = -1;
+  guess.value = name;
+  showSuggestions.value = false;
+  selectedIndex.value = -1;
 }
 
 function hideSuggestions() {
-	setTimeout(() => {
-		showSuggestions.value = false;
-		selectedIndex.value = -1;
-	}, 200);
+  setTimeout(() => {
+    showSuggestions.value = false;
+    selectedIndex.value = -1;
+  }, 200);
 }
 
 function handleKeyDown(event: KeyboardEvent) {
-	if (!showSuggestions.value || filteredCountries.value.length === 0) {
-		return;
-	}
+  if (!showSuggestions.value || filteredCountries.value.length === 0) {
+    return;
+  }
 
-	const maxIndex = Math.min(filteredCountries.value.length, 5) - 1;
+  const maxIndex = Math.min(filteredCountries.value.length, 5) - 1;
 
-	switch (event.key) {
-		case "ArrowDown":
-			event.preventDefault();
-			selectedIndex.value
-				= selectedIndex.value < maxIndex ? selectedIndex.value + 1 : 0;
-			break;
-		case "ArrowUp":
-			event.preventDefault();
-			selectedIndex.value
-				= selectedIndex.value > 0 ? selectedIndex.value - 1 : maxIndex;
-			break;
-		case "Enter":
-			if (selectedIndex.value >= 0 && selectedIndex.value <= maxIndex) {
-				event.preventDefault();
-				const selectedCountry = filteredCountries.value[selectedIndex.value];
-				if (selectedCountry) {
-					selectCountry(selectedCountry.name);
-				}
-			}
-			break;
-		case "Escape":
-			event.preventDefault();
-			showSuggestions.value = false;
-			selectedIndex.value = -1;
-			break;
-	}
+  switch (event.key) {
+    case "ArrowDown":
+      event.preventDefault();
+      selectedIndex.value =
+        selectedIndex.value < maxIndex ? selectedIndex.value + 1 : 0;
+      break;
+    case "ArrowUp":
+      event.preventDefault();
+      selectedIndex.value =
+        selectedIndex.value > 0 ? selectedIndex.value - 1 : maxIndex;
+      break;
+    case "Enter":
+      if (selectedIndex.value >= 0 && selectedIndex.value <= maxIndex) {
+        event.preventDefault();
+        const selectedCountry = filteredCountries.value[selectedIndex.value];
+        if (selectedCountry) {
+          selectCountry(selectedCountry.name);
+        }
+      }
+      break;
+    case "Escape":
+      event.preventDefault();
+      showSuggestions.value = false;
+      selectedIndex.value = -1;
+      break;
+  }
 }
 
 function startOver() {
-	round.value = 1;
-	correctAnswers.value = 0;
-	guess.value = "";
-	showAnswer.value = false;
-	isCorrect.value = false;
-	usedCountries.value = new Set();
-	showSuggestions.value = false;
-	selectedIndex.value = -1;
-	gameHistory.value = [];
-	currentCountry.value = getRandomCountry();
+  round.value = 1;
+  correctAnswers.value = 0;
+  guess.value = "";
+  showAnswer.value = false;
+  isCorrect.value = false;
+  usedCountries.value = new Set();
+  showSuggestions.value = false;
+  selectedIndex.value = -1;
+  gameHistory.value = [];
+  currentCountry.value = getRandomCountry();
 
-	nextTick(() => {
-		inputRef.value?.focus();
-	});
+  nextTick(() => {
+    inputRef.value?.focus();
+  });
 }
 
 function handleGlobalKeyDown(event: KeyboardEvent) {
-	if (showAnswer.value && event.key === "ArrowRight") {
-		event.preventDefault();
-		nextRound();
-	}
+  if (showAnswer.value && event.key === "ArrowRight") {
+    event.preventDefault();
+    nextRound();
+  }
 }
 
 onMounted(() => {
-	currentCountry.value = getRandomCountry();
-	nextTick(() => {
-		inputRef.value?.focus();
-	});
-	window.addEventListener("keydown", handleGlobalKeyDown);
+  currentCountry.value = getRandomCountry();
+  nextTick(() => {
+    inputRef.value?.focus();
+  });
+  window.addEventListener("keydown", handleGlobalKeyDown);
 });
 
 onUnmounted(() => {
-	window.removeEventListener("keydown", handleGlobalKeyDown);
+  window.removeEventListener("keydown", handleGlobalKeyDown);
 });
 </script>
 
@@ -663,6 +648,20 @@ article {
   margin-top: 2rem;
 }
 
+.flag-source {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.flag-source a {
+  color: var(--pico-muted-color);
+  text-decoration: none;
+}
+
+.flag-source a:hover {
+  text-decoration: underline;
+}
+
 .correct {
   color: var(--pico-color-green-500, green);
 }
@@ -673,7 +672,7 @@ article {
 
 .results {
   text-align: center;
-  max-width: 1400px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -721,33 +720,6 @@ article {
 
 @media (min-width: 1024px) {
   .summary-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .summary-item:last-child:nth-child(3n + 1) {
-    grid-column: auto;
-  }
-
-  .summary-item:last-child:nth-child(5n + 1),
-  .summary-item:last-child:nth-child(5n + 2),
-  .summary-item:last-child:nth-child(5n + 3),
-  .summary-item:last-child:nth-child(5n + 4) {
-    grid-column-start: span 1;
-  }
-
-  .summary-item:nth-last-child(1):nth-child(5n + 1) {
-    grid-column: 3;
-  }
-
-  .summary-item:nth-last-child(2):nth-child(5n + 4),
-  .summary-item:nth-last-child(1):nth-child(5n + 5) {
-    grid-column-start: 2;
-  }
-}
-
-@media (min-width: 1400px) {
-  .summary-grid {
-    grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
   }
 }
@@ -777,12 +749,24 @@ article {
   height: 50px;
 }
 
+.summary-flag a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
 .summary-flag img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 4px;
   border: 1px solid var(--pico-muted-border-color);
+  transition: opacity 0.2s;
+}
+
+.summary-flag a:hover img {
+  opacity: 0.8;
 }
 
 .summary-details {
