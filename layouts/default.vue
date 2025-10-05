@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div data-theme="dark">
 		<slot />
 	</div>
 </template>
@@ -19,7 +19,7 @@ useHead({
 	meta: [
 		{
 			name: "color-scheme",
-			content: "light dark",
+			content: "dark",
 		},
 	],
 });
