@@ -50,11 +50,11 @@ useSeoMeta({
 <style scoped>
 .index-page {
   position: relative;
-  min-height: 100vh;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 80vh;
 }
 
 .flag-background {

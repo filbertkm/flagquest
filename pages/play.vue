@@ -56,19 +56,33 @@
 							type="text"
 							placeholder="Enter country or territory name..."
 							autocomplete="off"
+							role="combobox"
+							aria-autocomplete="list"
+							:aria-expanded="showSuggestions && filteredCountries.length > 0"
+							aria-controls="suggestions-list"
+							@keydown="handleKeyDown"
 							@keyup.enter="submitGuess"
-							@input="showSuggestions = true"
+							@input="
+								showSuggestions = true;
+								selectedIndex = -1;
+							"
 							@blur="hideSuggestions"
 							@focus="showSuggestions = true"
 						>
 						<ul
 							v-if="showSuggestions && filteredCountries.length > 0"
+							id="suggestions-list"
 							class="suggestions"
+							role="listbox"
 						>
 							<li
-								v-for="country in filteredCountries.slice(0, 5)"
+								v-for="(country, index) in filteredCountries.slice(0, 5)"
 								:key="country.id"
+								:class="{ selected: index === selectedIndex }"
+								role="option"
+								:aria-selected="index === selectedIndex"
 								@mousedown.prevent="selectCountry(country.name)"
+								@mouseenter="selectedIndex = index"
 							>
 								{{ country.name }}
 							</li>
@@ -153,6 +167,7 @@ const showAnswer = ref(false);
 const isCorrect = ref(false);
 const usedCountries = ref(new Set());
 const showSuggestions = ref(false);
+const selectedIndex = ref(-1);
 
 // normalize string for case-insensitive matching and diacritic marks
 const normalizeString = (str: string) => {
@@ -238,12 +253,46 @@ function nextRound() {
 function selectCountry(name: string) {
 	guess.value = name;
 	showSuggestions.value = false;
+	selectedIndex.value = -1;
 }
 
 function hideSuggestions() {
 	setTimeout(() => {
 		showSuggestions.value = false;
+		selectedIndex.value = -1;
 	}, 200);
+}
+
+function handleKeyDown(event: KeyboardEvent) {
+	if (!showSuggestions.value || filteredCountries.value.length === 0) {
+		return;
+	}
+
+	const maxIndex = Math.min(filteredCountries.value.length, 5) - 1;
+
+	switch (event.key) {
+		case "ArrowDown":
+			event.preventDefault();
+			selectedIndex.value
+				= selectedIndex.value < maxIndex ? selectedIndex.value + 1 : 0;
+			break;
+		case "ArrowUp":
+			event.preventDefault();
+			selectedIndex.value
+				= selectedIndex.value > 0 ? selectedIndex.value - 1 : maxIndex;
+			break;
+		case "Enter":
+			if (selectedIndex.value >= 0 && selectedIndex.value <= maxIndex) {
+				event.preventDefault();
+				selectCountry(filteredCountries.value[selectedIndex.value].name);
+			}
+			break;
+		case "Escape":
+			event.preventDefault();
+			showSuggestions.value = false;
+			selectedIndex.value = -1;
+			break;
+	}
 }
 
 function startOver() {
@@ -254,6 +303,7 @@ function startOver() {
 	isCorrect.value = false;
 	usedCountries.value = new Set();
 	showSuggestions.value = false;
+	selectedIndex.value = -1;
 	currentCountry.value = getRandomCountry();
 }
 
@@ -266,7 +316,7 @@ onMounted(() => {
 .game-layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  flex: 1;
 }
 
 main {
@@ -372,7 +422,8 @@ article {
   text-align: left;
 }
 
-.suggestions li:hover {
+.suggestions li:hover,
+.suggestions li.selected {
   background-color: var(--pico-primary-focus);
 }
 
