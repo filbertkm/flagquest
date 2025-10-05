@@ -84,7 +84,12 @@
 						{{ isCorrect ? "Correct! ✓" : "Incorrect ✗" }}
 					</h3>
 					<p>
-						The answer is: <strong>{{ currentCountry.name }}</strong>
+						The answer is:
+						<strong><a
+							:href="`https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/${currentCountry.id}`"
+							target="_blank"
+							rel="noopener"
+						>{{ currentCountry.name }}</a></strong>
 					</p>
 					<button @click="nextRound">
 						{{ round >= maxRounds ? "View Results" : "Next Flag" }}

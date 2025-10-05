@@ -1,45 +1,48 @@
 <template>
-  <div class="index-page">
-    <div class="flag-background">
-      <img
-        v-for="flag in displayFlags"
-        :key="flag.id"
-        :src="flag.flag"
-        :alt="flag.name"
-        class="background-flag"
-      />
-    </div>
-    <main class="container">
-      <hgroup>
-        <h1>FlagQuest</h1>
-      </hgroup>
-      <p>Test your geography knowledge with flags from around the world!</p>
-      <NuxtLink to="/play" role="button">Start Playing</NuxtLink>
-    </main>
-  </div>
+	<div class="index-page">
+		<div class="flag-background">
+			<img
+				v-for="flag in displayFlags"
+				:key="flag.id"
+				:src="flag.flag"
+				:alt="flag.name"
+				class="background-flag"
+			>
+		</div>
+		<main class="container">
+			<hgroup>
+				<h1>FlagQuest</h1>
+			</hgroup>
+			<p>Test your geography knowledge with flags from around the world!</p>
+			<NuxtLink
+				to="/play"
+				role="button"
+			>Start Playing</NuxtLink>
+		</main>
+	</div>
 </template>
 
 <script setup lang="ts">
 import type { Country } from "~/types";
 
 defineOptions({
-  name: "IndexPage",
+	name: "IndexPage",
 });
 
 const countries = (await import("~/data/countries.json").then(
-  (m) => m.default
+	m => m.default,
 )) as Country[];
 
 const displayFlags = computed(() => {
-  const excludedCountries = ["Nepal", "Switzerland", "Vatican City"];
-  const filtered = countries.filter((c) => !excludedCountries.includes(c.name));
-  const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 50);
+	const excludedCountries = ["Nepal", "Switzerland", "Vatican City"];
+	const filtered = countries.filter(c => !excludedCountries.includes(c.name));
+	const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+	return shuffled.slice(0, 50);
 });
 
 useSeoMeta({
-  title: "FlagQuest - Guess the Country from Flags",
-  description:
+	title: "FlagQuest - Guess the Country from Flags",
+	description:
     "Test your geography knowledge with this flag guessing game using country flags from Wikidata",
 });
 </script>
