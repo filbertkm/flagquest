@@ -3,7 +3,7 @@ export default defineNuxtConfig({
 	modules: ["@nuxt/eslint", "@nuxt/image"],
 	devtools: { enabled: true },
 	app: {
-		baseURL: "/wikidata-game/",
+		baseURL: "/flagquest/",
 	},
 	compatibilityDate: "2025-07-15",
 	eslint: {
