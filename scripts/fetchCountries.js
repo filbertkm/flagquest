@@ -47,7 +47,11 @@ async function fetchCountries() {
 		flag: item.flag.value,
 	}));
 
-	const excludedCountries = ["Kingdom of Denmark"];
+	const excludedCountries = [
+		"Kingdom of Denmark",
+		"Kingdom of the Netherlands",
+		"Hutsul Republic",
+	];
 
 	const countryMap = new Map();
 	for (const country of rawCountries) {

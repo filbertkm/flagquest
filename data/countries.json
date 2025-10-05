@@ -370,11 +370,6 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Hungary.svg"
   },
   {
-    "id": "Q950101",
-    "name": "Hutsul Republic",
-    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Ukraine.svg"
-  },
-  {
     "id": "Q189",
     "name": "Iceland",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Iceland.svg"
@@ -443,11 +438,6 @@
     "id": "Q114",
     "name": "Kenya",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kenya.svg"
-  },
-  {
-    "id": "Q29999",
-    "name": "Kingdom of the Netherlands",
-    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Netherlands.svg"
   },
   {
     "id": "Q710",
