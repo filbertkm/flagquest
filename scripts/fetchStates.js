@@ -26,6 +26,14 @@ SELECT DISTINCT ?state ?stateLabel ?flag WHERE {
   {
     ?state wdt:P31 wd:Q14784.
   }
+  UNION
+  {
+    ?state wdt:P31 wd:Q1352230.
+  }
+  UNION
+  {
+    VALUES ?state { wd:Q2009 wd:Q2023 wd:Q2046 wd:Q2007 }
+  }
   FILTER NOT EXISTS { ?state wdt:P582 ?endDate. }
   FILTER NOT EXISTS { ?state wdt:P576 ?dissolvedDate. }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
@@ -39,7 +47,7 @@ async function fetchStates() {
 	)}&format=json`;
 
 	console.log(
-		"Fetching US states, territories, and Canadian provinces from Wikidata...",
+		"Fetching US states, Canadian provinces, and territories from Wikidata...",
 	);
 
 	const response = await fetch(url, {

@@ -210,9 +210,19 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Northern%20Mariana%20Islands.svg"
   },
   {
+    "id": "Q2007",
+    "name": "Northwest Territories",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Northwest%20Territories.svg"
+  },
+  {
     "id": "Q1952",
     "name": "Nova Scotia",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Nova%20Scotia.svg"
+  },
+  {
+    "id": "Q2023",
+    "name": "Nunavut",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Nunavut.svg"
   },
   {
     "id": "Q1397",
@@ -323,5 +333,10 @@
     "id": "Q1214",
     "name": "Wyoming",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Wyoming.svg"
+  },
+  {
+    "id": "Q2009",
+    "name": "Yukon",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Yukon.svg"
   }
 ]
