@@ -34,52 +34,52 @@ ORDER BY ?stateLabel
 `;
 
 async function fetchStates() {
-  const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(
-    sparqlQuery
-  )}&format=json`;
+	const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(
+		sparqlQuery,
+	)}&format=json`;
 
-  console.log(
-    "Fetching US states, territories, and Canadian provinces from Wikidata..."
-  );
+	console.log(
+		"Fetching US states, territories, and Canadian provinces from Wikidata...",
+	);
 
-  const response = await fetch(url, {
-    headers: {
-      "User-Agent": "FlagQuest/1.0",
-      Accept: "application/json",
-    },
-  });
+	const response = await fetch(url, {
+		headers: {
+			"User-Agent": "FlagQuest/1.0",
+			"Accept": "application/json",
+		},
+	});
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch: ${response.statusText}`);
-  }
+	if (!response.ok) {
+		throw new Error(`Failed to fetch: ${response.statusText}`);
+	}
 
-  const data = await response.json();
+	const data = await response.json();
 
-  const rawStates = data.results.bindings.map((item) => ({
-    id: item.state.value.split("/").pop(),
-    name: item.stateLabel.value,
-    flag: item.flag.value,
-  }));
+	const rawStates = data.results.bindings.map(item => ({
+		id: item.state.value.split("/").pop(),
+		name: item.stateLabel.value,
+		flag: item.flag.value,
+	}));
 
-  const stateMap = new Map();
-  for (const state of rawStates) {
-    const existing = stateMap.get(state.id);
-    const usesUSFlag = state.flag.includes("Flag%20of%20the%20United%20States");
-    if (!existing && !usesUSFlag) {
-      stateMap.set(state.id, state);
-    }
-  }
+	const stateMap = new Map();
+	for (const state of rawStates) {
+		const existing = stateMap.get(state.id);
+		const usesUSFlag = state.flag.includes("Flag%20of%20the%20United%20States");
+		if (!existing && !usesUSFlag) {
+			stateMap.set(state.id, state);
+		}
+	}
 
-  const states = Array.from(stateMap.values()).sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+	const states = Array.from(stateMap.values()).sort((a, b) =>
+		a.name.localeCompare(b.name),
+	);
 
-  console.log(`Found ${states.length} unique states/provinces/territories`);
+	console.log(`Found ${states.length} unique states/provinces/territories`);
 
-  const outputPath = join(__dirname, "../data/states.json");
-  await writeFile(outputPath, JSON.stringify(states, null, 2));
+	const outputPath = join(__dirname, "../data/states.json");
+	await writeFile(outputPath, JSON.stringify(states, null, 2));
 
-  console.log(`Saved to ${outputPath}`);
+	console.log(`Saved to ${outputPath}`);
 }
 
 fetchStates().catch(console.error);

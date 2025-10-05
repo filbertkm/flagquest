@@ -6,6 +6,20 @@
 					<li>
 						<strong><NuxtLink to="/">FlagQuest</NuxtLink></strong>
 					</li>
+					<li class="mode-tabs">
+						<button
+							:class="{ active: mode === 'countries' }"
+							@click="switchMode('countries')"
+						>
+							Countries
+						</button>
+						<button
+							:class="{ active: mode === 'states' }"
+							@click="switchMode('states')"
+						>
+							US & Canada
+						</button>
+					</li>
 				</ul>
 				<ul>
 					<li>Accuracy: {{ accuracy }}%</li>
@@ -24,7 +38,13 @@
 
 		<main class="container">
 			<article v-if="currentCountry">
-				<h2>What country is this flag from?</h2>
+				<h2>
+					{{
+						mode === "countries"
+							? "What country is this flag from?"
+							: "What US state, Canadian province, or territory is this flag from?"
+					}}
+				</h2>
 				<div class="flag-container">
 					<img
 						:src="currentCountry.flag"
@@ -40,7 +60,11 @@
 						<input
 							v-model="guess"
 							type="text"
-							placeholder="Enter country name..."
+							:placeholder="
+								mode === 'countries'
+									? 'Enter country name...'
+									: 'Enter state/province name...'
+							"
 							autocomplete="off"
 							@keyup.enter="submitGuess"
 							@input="showSuggestions = true"
@@ -120,7 +144,15 @@ defineOptions({
 	name: "PlayPage",
 });
 
-const countries = await import("~/data/countries.json").then(m => m.default);
+const countriesData = await import("~/data/countries.json").then(
+	m => m.default,
+);
+const statesData = await import("~/data/states.json").then(m => m.default);
+
+const mode = ref<"countries" | "states">("countries");
+const countries = computed(() =>
+	mode.value === "countries" ? countriesData : statesData,
+);
 
 const maxRounds = 10;
 const round = ref(1);
@@ -137,10 +169,10 @@ const filteredCountries = computed(() => {
 	const searchTerm = guess.value.toLowerCase();
 
 	// Prioritize prefix matches, then include contains matches
-	const startsWithMatches = countries.filter(c =>
+	const startsWithMatches = countries.value.filter(c =>
 		c.name.toLowerCase().startsWith(searchTerm),
 	);
-	const containsMatches = countries.filter(
+	const containsMatches = countries.value.filter(
 		c =>
 			!c.name.toLowerCase().startsWith(searchTerm)
 			&& c.name.toLowerCase().includes(searchTerm),
@@ -158,11 +190,18 @@ const accuracy = computed(() => {
 });
 
 function getRandomCountry(): Country | null {
-	const available = countries.filter(c => !usedCountries.value.has(c.id));
+	const available = countries.value.filter(
+		c => !usedCountries.value.has(c.id),
+	);
 	if (available.length === 0) return null;
 	const country = available[Math.floor(Math.random() * available.length)]!;
 	usedCountries.value.add(country.id);
 	return country;
+}
+
+function switchMode(newMode: "countries" | "states") {
+	mode.value = newMode;
+	startOver();
 }
 
 function submitGuess() {
@@ -253,6 +292,32 @@ nav button {
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
   margin: 0;
+}
+
+.mode-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.mode-tabs button {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  background: transparent;
+  border: 1px solid var(--pico-border-color);
+  color: var(--pico-color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-tabs button:hover {
+  background: var(--pico-primary-focus);
+}
+
+.mode-tabs button.active {
+  background: var(--pico-primary);
+  border-color: var(--pico-primary);
+  color: var(--pico-primary-inverse);
 }
 
 article {
