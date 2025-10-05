@@ -10,7 +10,8 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "fix": "eslint . --fix",
-    "fetch-countries": "node scripts/fetchCountries.js"
+    "fetch-countries": "node scripts/fetchCountries.js",
+    "fetch-states": "node scripts/fetchStates.js"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.9.0",

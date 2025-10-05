@@ -30,7 +30,7 @@ async function fetchCountries() {
 
 	const response = await fetch(url, {
 		headers: {
-			"User-Agent": "WikiGame/1.0",
+			"User-Agent": "FlagQuest/1.0",
 			"Accept": "application/json",
 		},
 	});

@@ -1,0 +1,327 @@
+[
+  {
+    "id": "Q173",
+    "name": "Alabama",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Alabama.svg"
+  },
+  {
+    "id": "Q797",
+    "name": "Alaska",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Alaska.svg"
+  },
+  {
+    "id": "Q1951",
+    "name": "Alberta",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Alberta.svg"
+  },
+  {
+    "id": "Q16641",
+    "name": "American Samoa",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20American%20Samoa.svg"
+  },
+  {
+    "id": "Q816",
+    "name": "Arizona",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Arizona.svg"
+  },
+  {
+    "id": "Q1612",
+    "name": "Arkansas",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Arkansas.svg"
+  },
+  {
+    "id": "Q1973",
+    "name": "British Columbia",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20British%20Columbia.svg"
+  },
+  {
+    "id": "Q99",
+    "name": "California",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20California.svg"
+  },
+  {
+    "id": "Q1261",
+    "name": "Colorado",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Colorado.svg"
+  },
+  {
+    "id": "Q779",
+    "name": "Connecticut",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Connecticut.svg"
+  },
+  {
+    "id": "Q1393",
+    "name": "Delaware",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Delaware.svg"
+  },
+  {
+    "id": "Q812",
+    "name": "Florida",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Florida.svg"
+  },
+  {
+    "id": "Q1428",
+    "name": "Georgia",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20State%20of%20Georgia.svg"
+  },
+  {
+    "id": "Q16635",
+    "name": "Guam",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Guam.svg"
+  },
+  {
+    "id": "Q782",
+    "name": "Hawaii",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Hawaii.svg"
+  },
+  {
+    "id": "Q1221",
+    "name": "Idaho",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Idaho.svg"
+  },
+  {
+    "id": "Q1204",
+    "name": "Illinois",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Illinois.svg"
+  },
+  {
+    "id": "Q1415",
+    "name": "Indiana",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Indiana.svg"
+  },
+  {
+    "id": "Q1546",
+    "name": "Iowa",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Iowa.svg"
+  },
+  {
+    "id": "Q1558",
+    "name": "Kansas",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kansas.svg"
+  },
+  {
+    "id": "Q1603",
+    "name": "Kentucky",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Kentucky.svg"
+  },
+  {
+    "id": "Q1588",
+    "name": "Louisiana",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Louisiana.svg"
+  },
+  {
+    "id": "Q724",
+    "name": "Maine",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Maine.svg"
+  },
+  {
+    "id": "Q1948",
+    "name": "Manitoba",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Province%20of%20Manitoba.svg"
+  },
+  {
+    "id": "Q1391",
+    "name": "Maryland",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Maryland.svg"
+  },
+  {
+    "id": "Q771",
+    "name": "Massachusetts",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Massachusetts.svg"
+  },
+  {
+    "id": "Q1166",
+    "name": "Michigan",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Michigan.svg"
+  },
+  {
+    "id": "Q1527",
+    "name": "Minnesota",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Minnesota.svg"
+  },
+  {
+    "id": "Q1494",
+    "name": "Mississippi",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Mississippi.svg"
+  },
+  {
+    "id": "Q1581",
+    "name": "Missouri",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Missouri.svg"
+  },
+  {
+    "id": "Q1212",
+    "name": "Montana",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Montana.svg"
+  },
+  {
+    "id": "Q1553",
+    "name": "Nebraska",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Nebraska.svg"
+  },
+  {
+    "id": "Q1227",
+    "name": "Nevada",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Nevada.svg"
+  },
+  {
+    "id": "Q1965",
+    "name": "New Brunswick",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20New%20Brunswick.svg"
+  },
+  {
+    "id": "Q759",
+    "name": "New Hampshire",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20New%20Hampshire.svg"
+  },
+  {
+    "id": "Q1408",
+    "name": "New Jersey",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20New%20Jersey.svg"
+  },
+  {
+    "id": "Q1522",
+    "name": "New Mexico",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20New%20Mexico.svg"
+  },
+  {
+    "id": "Q1384",
+    "name": "New York",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20New%20York.svg"
+  },
+  {
+    "id": "Q2003",
+    "name": "Newfoundland and Labrador",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Newfoundland%20and%20Labrador.svg"
+  },
+  {
+    "id": "Q1454",
+    "name": "North Carolina",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20North%20Carolina.svg"
+  },
+  {
+    "id": "Q1207",
+    "name": "North Dakota",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20North%20Dakota.svg"
+  },
+  {
+    "id": "Q16644",
+    "name": "Northern Mariana Islands",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20Northern%20Mariana%20Islands.svg"
+  },
+  {
+    "id": "Q1952",
+    "name": "Nova Scotia",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Nova%20Scotia.svg"
+  },
+  {
+    "id": "Q1397",
+    "name": "Ohio",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Ohio.svg"
+  },
+  {
+    "id": "Q1649",
+    "name": "Oklahoma",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Oklahoma.svg"
+  },
+  {
+    "id": "Q1904",
+    "name": "Ontario",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Ontario.svg"
+  },
+  {
+    "id": "Q824",
+    "name": "Oregon",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Oregon.svg"
+  },
+  {
+    "id": "Q1400",
+    "name": "Pennsylvania",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Pennsylvania.svg"
+  },
+  {
+    "id": "Q1978",
+    "name": "Prince Edward Island",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Prince%20Edward%20Island.svg"
+  },
+  {
+    "id": "Q1183",
+    "name": "Puerto Rico",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Puerto%20Rico.svg"
+  },
+  {
+    "id": "Q176",
+    "name": "Quebec",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Quebec.svg"
+  },
+  {
+    "id": "Q1387",
+    "name": "Rhode Island",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Rhode%20Island.svg"
+  },
+  {
+    "id": "Q1989",
+    "name": "Saskatchewan",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Saskatchewan.svg"
+  },
+  {
+    "id": "Q1456",
+    "name": "South Carolina",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20South%20Carolina.svg"
+  },
+  {
+    "id": "Q1211",
+    "name": "South Dakota",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20South%20Dakota.svg"
+  },
+  {
+    "id": "Q1509",
+    "name": "Tennessee",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Tennessee.svg"
+  },
+  {
+    "id": "Q1439",
+    "name": "Texas",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Texas.svg"
+  },
+  {
+    "id": "Q829",
+    "name": "Utah",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Utah.svg"
+  },
+  {
+    "id": "Q16551",
+    "name": "Vermont",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Vermont.svg"
+  },
+  {
+    "id": "Q1370",
+    "name": "Virginia",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Virginia.svg"
+  },
+  {
+    "id": "Q43296",
+    "name": "Wake Island",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Wake%20Island.svg"
+  },
+  {
+    "id": "Q1223",
+    "name": "Washington",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Washington.svg"
+  },
+  {
+    "id": "Q1371",
+    "name": "West Virginia",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20West%20Virginia.svg"
+  },
+  {
+    "id": "Q1537",
+    "name": "Wisconsin",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Wisconsin.svg"
+  },
+  {
+    "id": "Q1214",
+    "name": "Wyoming",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Wyoming.svg"
+  }
+]
