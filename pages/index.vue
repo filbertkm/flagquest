@@ -34,7 +34,13 @@ const countries = (await import("~/data/countries.json").then(
 )) as Country[];
 
 const displayFlags = computed(() => {
-	const excludedCountries = ["Nepal", "Switzerland", "Vatican City"];
+	const excludedCountries = [
+		"Nepal",
+		"Switzerland",
+		"Vatican City",
+		"Israel",
+		"Afghanistan",
+	];
 	const filtered = countries.filter(c => !excludedCountries.includes(c.name));
 	const shuffled = [...filtered].sort(() => Math.random() - 0.5);
 	return shuffled.slice(0, 50);
