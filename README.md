@@ -2,6 +2,8 @@
 
 A geography quiz game built with Nuxt and Vue where you guess countries from their flags. Country data is fetched from Wikidata.
 
+The game is available to play at: **https://filbertkm.github.io/flagquest/**
+
 ## Setup
 
 Install dependencies:
@@ -54,8 +56,6 @@ Once configured, the site will automatically deploy when you push to the `main` 
 1. Install dependencies
 2. Generate the static site
 3. Deploy to GitHub Pages
-
-The game will be available at: **https://filbertkm.github.io/wikidata-game/**
 
 ### Manual Deployment
 
