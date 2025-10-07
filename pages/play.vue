@@ -59,7 +59,10 @@
 		<main class="container">
 			<article v-if="currentCountry">
 				<h2>Which flag is this?</h2>
-				<div class="flag-container">
+				<div
+					ref="flagContainerRef"
+					class="flag-container"
+				>
 					<img
 						:src="currentCountry.flag"
 						:alt="`Flag of ${showAnswer ? currentCountry.name : '???'}`"
@@ -88,7 +91,7 @@
 								selectedIndex = -1;
 							"
 							@blur="hideSuggestions"
-							@focus="showSuggestions = true"
+							@focus="handleInputFocus"
 						>
 						<ul
 							v-if="showSuggestions && filteredCountries.length > 0"
@@ -255,6 +258,7 @@ const selectedIndex = ref(-1);
 const inputRef = ref<HTMLInputElement | null>(null);
 const nextButtonRef = ref<HTMLButtonElement | null>(null);
 const playAgainRef = ref<HTMLButtonElement | null>(null);
+const flagContainerRef = ref<HTMLDivElement | null>(null);
 
 interface GameRound {
 	country: Country;
@@ -386,6 +390,19 @@ function hideSuggestions() {
 	}, 200);
 }
 
+function handleInputFocus() {
+	showSuggestions.value = true;
+
+	if (window.innerWidth < 576) {
+		setTimeout(() => {
+			flagContainerRef.value?.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		}, 300);
+	}
+}
+
 function handleKeyDown(event: KeyboardEvent) {
 	if (!showSuggestions.value || filteredCountries.value.length === 0) {
 		return;
@@ -466,7 +483,15 @@ onUnmounted(() => {
 }
 
 header {
-  padding-top: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+@media (min-width: 576px) {
+  header {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
 }
 
 main {
@@ -614,6 +639,23 @@ article {
   text-align: center;
   max-width: 600px;
   width: 100%;
+  padding: 0.5rem;
+}
+
+article h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 576px) {
+  article {
+    padding: 1rem;
+  }
+
+  article h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .input-section {
@@ -670,15 +712,25 @@ article {
 }
 
 .flag-container {
-  margin: 2rem 0;
+  margin: 1rem 0;
 }
 
 .flag-container img {
   max-width: 100%;
   height: auto;
-  max-height: 300px;
+  max-height: 180px;
   border: 2px solid var(--pico-muted-border-color);
   border-radius: var(--pico-border-radius);
+}
+
+@media (min-width: 576px) {
+  .flag-container {
+    margin: 2rem 0;
+  }
+
+  .flag-container img {
+    max-height: 300px;
+  }
 }
 
 .result {
