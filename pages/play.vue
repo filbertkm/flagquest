@@ -422,6 +422,7 @@ function handleKeyDown(event: KeyboardEvent) {
 				= selectedIndex.value > 0 ? selectedIndex.value - 1 : maxIndex;
 			break;
 		case "Enter":
+		case "Tab":
 			if (selectedIndex.value >= 0 && selectedIndex.value <= maxIndex) {
 				event.preventDefault();
 				const selectedCountry = filteredCountries.value[selectedIndex.value];

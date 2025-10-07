@@ -15,6 +15,7 @@
 			</hgroup>
 			<p>Test your geography knowledge with flags from around the world!</p>
 			<NuxtLink
+				ref="startButtonRef"
 				to="/play"
 				role="button"
 			>Start Playing</NuxtLink>
@@ -28,6 +29,8 @@ import type { Country } from "~/types";
 defineOptions({
 	name: "IndexPage",
 });
+
+const startButtonRef = ref<{ $el: HTMLElement } | null>(null);
 
 const countries = (await import("~/data/countries.json").then(
 	m => m.default,
@@ -44,6 +47,12 @@ const displayFlags = computed(() => {
 	const filtered = countries.filter(c => !excludedCountries.includes(c.name));
 	const shuffled = [...filtered].sort(() => Math.random() - 0.5);
 	return shuffled.slice(0, 50);
+});
+
+onMounted(() => {
+	nextTick(() => {
+		startButtonRef.value?.$el?.focus();
+	});
 });
 
 useSeoMeta({
