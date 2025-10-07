@@ -82,7 +82,7 @@
 							ref="inputRef"
 							v-model="guess"
 							type="text"
-							placeholder="Enter country or territory name..."
+							:placeholder="autocompletePlaceholderText"
 							autocomplete="off"
 							role="combobox"
 							aria-autocomplete="list"
@@ -248,6 +248,9 @@ const mode = ref<"countries" | "states">("countries");
 const countries = computed(() =>
 	mode.value === "countries" ? countriesData : statesData,
 );
+const autocompletePlaceholderText = computed(() => {
+	return mode.value === "countries" ? "Enter country or territory name..." : "Enter state or province name...";
+});
 
 const maxRounds = 10;
 const round = ref(1);
