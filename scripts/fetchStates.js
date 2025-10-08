@@ -32,7 +32,7 @@ SELECT DISTINCT ?state ?stateLabel ?flag WHERE {
   }
   UNION
   {
-    VALUES ?state { wd:Q2009 wd:Q2023 wd:Q2046 wd:Q2007 }
+    VALUES ?state { wd:Q2009 wd:Q2023 wd:Q2046 wd:Q2007 wd:Q61 }
   }
   FILTER NOT EXISTS { ?state wdt:P582 ?endDate. }
   FILTER NOT EXISTS { ?state wdt:P576 ?dissolvedDate. }
@@ -63,11 +63,22 @@ async function fetchStates() {
 
 	const data = await response.json();
 
-	const rawStates = data.results.bindings.map(item => ({
-		id: item.state.value.split("/").pop(),
-		name: item.stateLabel.value,
-		flag: item.flag.value,
-	}));
+	const aliasMap = {
+		Q61: ["District of Columbia"],
+	};
+
+	const rawStates = data.results.bindings.map((item) => {
+		const id = item.state.value.split("/").pop();
+		const state = {
+			id,
+			name: item.stateLabel.value,
+			flag: item.flag.value,
+		};
+		if (aliasMap[id]) {
+			state.aliases = aliasMap[id];
+		}
+		return state;
+	});
 
 	const stateMap = new Map();
 	for (const state of rawStates) {

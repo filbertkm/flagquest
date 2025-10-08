@@ -100,11 +100,19 @@ async function fetchCountries() {
 		"Democratic People's Republic of Korea": "North Korea",
 	};
 
+	const aliasMap = {};
+
 	const countries = Array.from(countryMap.values())
-		.map(country => ({
-			...country,
-			name: nameMapping[country.name] || country.name,
-		}))
+		.map((country) => {
+			const mapped = {
+				...country,
+				name: nameMapping[country.name] || country.name,
+			};
+			if (aliasMap[country.id]) {
+				mapped.aliases = aliasMap[country.id];
+			}
+			return mapped;
+		})
 		.sort((a, b) => a.name.localeCompare(b.name));
 
 	console.log(`Found ${countries.length} unique countries`);

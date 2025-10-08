@@ -320,6 +320,14 @@
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Washington.svg"
   },
   {
+    "id": "Q61",
+    "name": "Washington, D.C.",
+    "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Washington%2C%20D.C.svg",
+    "aliases": [
+      "District of Columbia"
+    ]
+  },
+  {
     "id": "Q1371",
     "name": "West Virginia",
     "flag": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20West%20Virginia.svg"
