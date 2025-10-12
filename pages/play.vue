@@ -245,7 +245,7 @@ defineOptions({
 });
 
 const mode = ref<"countries" | "states">("countries");
-const countries = computed(() =>
+const countries = computed<Country[]>(() =>
 	mode.value === "countries" ? countriesData : statesData,
 );
 const autocompletePlaceholderText = computed(() => {
