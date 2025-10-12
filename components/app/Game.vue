@@ -68,6 +68,7 @@ const emit = defineEmits<{
 const round = ref(1);
 const correctAnswers = ref(0);
 const currentCountry = ref<Country | null>(null);
+const currentGuess = ref("");
 const showAnswer = ref(false);
 const isCorrect = ref(false);
 const usedCountries = ref(new Set());
@@ -122,6 +123,7 @@ function getRandomCountry(): Country | null {
 function submitGuess(guess: string) {
 	if (!guess || !currentCountry.value) return;
 
+	currentGuess.value = guess;
 	const userGuess = normalizeString(guess);
 	const correctName = normalizeString(currentCountry.value.name);
 	const aliasMatch
@@ -139,6 +141,7 @@ function submitGuess(guess: string) {
 }
 
 function showCurrentAnswer() {
+	currentGuess.value = "";
 	isCorrect.value = false;
 	showAnswer.value = true;
 }
@@ -148,7 +151,7 @@ function nextRound() {
 		gameHistory.value.push({
 			country: currentCountry.value,
 			correct: isCorrect.value,
-			userGuess: gameInputRef.value?.guess || "",
+			userGuess: currentGuess.value,
 		});
 	}
 
@@ -161,6 +164,7 @@ function nextRound() {
 	}
 
 	round.value++;
+	currentGuess.value = "";
 	gameInputRef.value?.reset();
 	showAnswer.value = false;
 	isCorrect.value = false;
@@ -205,6 +209,7 @@ function handleViewportResize() {
 function startOver() {
 	round.value = 1;
 	correctAnswers.value = 0;
+	currentGuess.value = "";
 	gameInputRef.value?.reset();
 	showAnswer.value = false;
 	isCorrect.value = false;
@@ -286,9 +291,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Breakpoints: mobile < 576px, tablet < 768px, desktop >= 1024px */
-/* See ~/constants/breakpoints.ts for JavaScript breakpoint checks */
-
 article {
   text-align: center;
   max-width: 600px;
