@@ -27,37 +27,14 @@
 			@focus="handleInputFocus"
 		/>
 
-		<div
+		<GameAnswerDisplay
 			v-else
-			class="result"
-		>
-			<h3 :class="isCorrect ? 'correct' : 'incorrect'">
-				{{ isCorrect ? "Correct! ✓" : "Incorrect ✗" }}
-			</h3>
-			<p>
-				The answer is:
-				<strong><a
-					:href="`https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/${currentCountry.id}`"
-					target="_blank"
-					rel="noopener"
-				>{{ currentCountry.name }}</a></strong>
-			</p>
-			<p class="flag-source">
-				<small>
-					<a
-						:href="getFlagCommonsUrl(currentCountry.flag)"
-						target="_blank"
-						rel="noopener"
-					>Flag image source</a>
-				</small>
-			</p>
-			<button
-				ref="nextButtonRef"
-				@click="nextRound"
-			>
-				{{ round >= maxRounds ? "View Results" : "Next Flag" }}
-			</button>
-		</div>
+			ref="answerDisplayRef"
+			:country="currentCountry"
+			:is-correct="isCorrect"
+			:is-final-round="round >= maxRounds"
+			@next-round="nextRound"
+		/>
 	</article>
 
 	<GameResults
@@ -74,6 +51,7 @@
 import type { Country, GameRound } from "~/types";
 import GameResults from "~/components/app/GameResults.vue";
 import GameInput from "~/components/app/GameInput.vue";
+import GameAnswerDisplay from "./GameAnswerDisplay.vue";
 
 const props = defineProps<{
 	countries: Country[];
@@ -92,23 +70,20 @@ const currentCountry = ref<Country | null>(null);
 const showAnswer = ref(false);
 const isCorrect = ref(false);
 const usedCountries = ref(new Set());
-const nextButtonRef = ref<HTMLButtonElement | null>(null);
 const flagContainerRef = ref<HTMLDivElement | null>(null);
 const isKeyboardOpen = ref(false);
 
 const gameHistory = ref<GameRound[]>([]);
 const gameInputRef = ref<InstanceType<typeof GameInput> | null>(null);
+const answerDisplayRef = ref<InstanceType<typeof GameAnswerDisplay> | null>(
+	null,
+);
 
 const normalizeString = (str: string) => {
 	return str
 		.normalize("NFD")
 		.replace(/[\u0300-\u036f]/g, "")
 		.toLowerCase();
-};
-
-const getFlagCommonsUrl = (flagUrl: string) => {
-	const filename = flagUrl.split("/").pop();
-	return `https://commons.wikimedia.org/wiki/File:${filename}`;
 };
 
 const accuracy = computed(() => {
@@ -146,19 +121,11 @@ function submitGuess(guess: string) {
 	}
 
 	showAnswer.value = true;
-
-	nextTick(() => {
-		nextButtonRef.value?.focus();
-	});
 }
 
 function showCurrentAnswer() {
 	isCorrect.value = false;
 	showAnswer.value = true;
-
-	nextTick(() => {
-		nextButtonRef.value?.focus();
-	});
 }
 
 function nextRound() {
@@ -346,31 +313,5 @@ article.keyboard-open {
   article.keyboard-open {
     padding: 1rem;
   }
-}
-
-.result {
-  margin-top: 2rem;
-}
-
-.flag-source {
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.flag-source a {
-  color: var(--pico-muted-color);
-  text-decoration: none;
-}
-
-.flag-source a:hover {
-  text-decoration: underline;
-}
-
-.correct {
-  color: var(--pico-color-green-500, green);
-}
-
-.incorrect {
-  color: var(--pico-color-red-500, red);
 }
 </style>
