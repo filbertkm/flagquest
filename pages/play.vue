@@ -1,58 +1,14 @@
 <template>
 	<div class="game-layout">
 		<header class="container">
-			<nav>
-				<ul>
-					<li>
-						<strong><NuxtLink to="/">FlagQuest</NuxtLink></strong>
-					</li>
-					<li class="mode-select-wrapper">
-						<select
-							v-model="mode"
-							class="mode-select"
-							@change="switchMode(mode)"
-						>
-							<option value="countries">
-								World
-							</option>
-							<option value="states">
-								US & Canada
-							</option>
-						</select>
-					</li>
-					<li class="mode-tabs">
-						<button
-							:class="{ active: mode === 'countries' }"
-							@click="switchMode('countries')"
-						>
-							World
-						</button>
-						<button
-							:class="{ active: mode === 'states' }"
-							@click="switchMode('states')"
-						>
-							US & Canada
-						</button>
-					</li>
-				</ul>
-				<ul>
-					<li class="stat-item">
-						<span class="stat-label">Accuracy: </span>{{ accuracy }}%
-					</li>
-					<li class="stat-item">
-						<span class="stat-label">Round: </span>{{ round }}/{{ maxRounds }}
-					</li>
-					<li>
-						<button
-							class="secondary outline"
-							@click="startOver"
-						>
-							<span class="btn-text-full">Start Over</span>
-							<span class="btn-text-short">Restart</span>
-						</button>
-					</li>
-				</ul>
-			</nav>
+			<GameNavBar
+				:mode="mode"
+				:accuracy="accuracy"
+				:round="round"
+				:max-rounds="maxRounds"
+				@switch-mode="switchMode"
+				@start-over="startOver"
+			/>
 		</header>
 
 		<main class="container">
@@ -239,6 +195,7 @@
 import type { Country } from "~/types";
 import countriesData from "~/data/countries.json";
 import statesData from "~/data/states.json";
+import GameNavBar from "~/components/app/GameNavBar.vue";
 
 defineOptions({
 	name: "PlayPage",
