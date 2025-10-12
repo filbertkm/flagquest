@@ -121,23 +121,14 @@
 				</div>
 			</article>
 
-			<article
+			<GameResults
 				v-else
-				class="results"
-			>
-				<h2>Game Over!</h2>
-				<p>Final Accuracy: {{ accuracy }}%</p>
-				<p>Correct answers: {{ correctAnswers }} / {{ maxRounds }}</p>
-
-				<GameSummary :game-history="gameHistory" />
-
-				<button
-					ref="playAgainRef"
-					@click="startOver"
-				>
-					Play Again
-				</button>
-			</article>
+				:accuracy="accuracy"
+				:correct-answers="correctAnswers"
+				:max-rounds="maxRounds"
+				:game-history="gameHistory"
+				@start-over="startOver"
+			/>
 		</main>
 	</div>
 </template>
@@ -147,7 +138,7 @@ import type { Country, GameRound, SuggestionItem } from "~/types";
 import countriesData from "~/data/countries.json";
 import statesData from "~/data/states.json";
 import GameNavBar from "~/components/app/GameNavBar.vue";
-import GameSummary from "~/components/app/GameSummary.vue";
+import GameResults from "~/components/app/GameResults.vue";
 
 defineOptions({
 	name: "PlayPage",
@@ -175,7 +166,6 @@ const showSuggestions = ref(false);
 const selectedIndex = ref(-1);
 const inputRef = ref<HTMLInputElement | null>(null);
 const nextButtonRef = ref<HTMLButtonElement | null>(null);
-const playAgainRef = ref<HTMLButtonElement | null>(null);
 const flagContainerRef = ref<HTMLDivElement | null>(null);
 const isKeyboardOpen = ref(false);
 
@@ -308,9 +298,6 @@ function nextRound() {
 
 	if (round.value >= maxRounds) {
 		currentCountry.value = null;
-		nextTick(() => {
-			playAgainRef.value?.focus();
-		});
 		return;
 	}
 
@@ -762,19 +749,5 @@ article.keyboard-open {
 
 .incorrect {
   color: var(--pico-color-red-500, red);
-}
-
-.results {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.results h2 {
-  margin-bottom: 0.5rem;
-}
-
-.results p {
-  margin-bottom: 0.5rem;
 }
 </style>
