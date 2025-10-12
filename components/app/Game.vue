@@ -1,9 +1,9 @@
 <template>
 	<article
-		v-if="currentCountry"
+		v-if="!isGameOver"
 		:class="{ 'keyboard-open': isKeyboardOpen }"
 	>
-		<h2 v-if="!isKeyboardOpen || showAnswer">
+		<h2 v-if="shouldShowHeader">
 			Which flag is this?
 		</h2>
 		<div
@@ -11,8 +11,8 @@
 			class="flag-container"
 		>
 			<img
-				:src="currentCountry.flag"
-				:alt="`Flag of ${showAnswer ? currentCountry.name : '???'}`"
+				:src="currentCountry!.flag"
+				:alt="flagAltText"
 			>
 		</div>
 
@@ -30,9 +30,9 @@
 		<GameAnswerDisplay
 			v-else
 			ref="answerDisplayRef"
-			:country="currentCountry"
+			:country="currentCountry!"
 			:is-correct="isCorrect"
-			:is-final-round="round >= maxRounds"
+			:is-final-round="isFinalRound"
 			@next-round="nextRound"
 		/>
 	</article>
@@ -52,6 +52,7 @@ import type { Country, GameRound } from "~/types";
 import GameResults from "~/components/app/GameResults.vue";
 import GameInput from "~/components/app/GameInput.vue";
 import GameAnswerDisplay from "./GameAnswerDisplay.vue";
+import { isMobileWidth } from "~/constants/breakpoints";
 
 const props = defineProps<{
 	countries: Country[];
@@ -93,6 +94,20 @@ const accuracy = computed(() => {
 		? Math.round((correctAnswers.value / answeredRounds) * 100)
 		: 0;
 });
+
+const isFinalRound = computed(() => round.value >= props.maxRounds);
+
+const isGameOver = computed(() => currentCountry.value === null);
+
+const shouldShowHeader = computed(
+	() => !isKeyboardOpen.value || showAnswer.value,
+);
+
+const flagAltText = computed(() =>
+	showAnswer.value && currentCountry.value
+		? `Flag of ${currentCountry.value.name}`
+		: "Flag of ???",
+);
 
 function getRandomCountry(): Country | null {
 	const available = props.countries.filter(
@@ -139,7 +154,7 @@ function nextRound() {
 
 	emitStats();
 
-	if (round.value >= props.maxRounds) {
+	if (isFinalRound.value) {
 		currentCountry.value = null;
 		emit("gameOver");
 		return;
@@ -152,12 +167,19 @@ function nextRound() {
 	currentCountry.value = getRandomCountry();
 
 	nextTick(() => {
-		gameInputRef.value?.focus();
+		if (isMobileWidth()) {
+			setTimeout(() => {
+				gameInputRef.value?.focus();
+			}, 100);
+		}
+		else {
+			gameInputRef.value?.focus();
+		}
 	});
 }
 
 function handleInputFocus() {
-	if (window.innerWidth < 576) {
+	if (isMobileWidth()) {
 		setTimeout(() => {
 			flagContainerRef.value?.scrollIntoView({
 				behavior: "smooth",
@@ -168,7 +190,7 @@ function handleInputFocus() {
 }
 
 function handleViewportResize() {
-	if (window.innerWidth >= 576) {
+	if (!isMobileWidth()) {
 		isKeyboardOpen.value = false;
 		return;
 	}
@@ -193,7 +215,16 @@ function startOver() {
 	emitStats();
 
 	nextTick(() => {
-		gameInputRef.value?.focus();
+		nextTick(() => {
+			if (window.innerWidth < 576) {
+				setTimeout(() => {
+					gameInputRef.value?.focus();
+				}, 100);
+			}
+			else {
+				gameInputRef.value?.focus();
+			}
+		});
 	});
 }
 
@@ -227,7 +258,16 @@ onMounted(() => {
 	currentCountry.value = getRandomCountry();
 	emitStats();
 	nextTick(() => {
-		gameInputRef.value?.focus();
+		nextTick(() => {
+			if (isMobileWidth()) {
+				setTimeout(() => {
+					gameInputRef.value?.focus();
+				}, 100);
+			}
+			else {
+				gameInputRef.value?.focus();
+			}
+		});
 	});
 	window.addEventListener("keydown", handleGlobalKeyDown);
 
@@ -246,6 +286,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Breakpoints: mobile < 576px, tablet < 768px, desktop >= 1024px */
+/* See ~/constants/breakpoints.ts for JavaScript breakpoint checks */
+
 article {
   text-align: center;
   max-width: 600px;
@@ -256,17 +299,6 @@ article {
 article h2 {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
-}
-
-@media (min-width: 576px) {
-  article {
-    padding: 1rem;
-  }
-
-  article h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
 }
 
 .flag-container {
@@ -294,6 +326,15 @@ article.keyboard-open {
 }
 
 @media (min-width: 576px) {
+  article {
+    padding: 1rem;
+  }
+
+  article h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
   .flag-container {
     margin: 2rem 0;
   }

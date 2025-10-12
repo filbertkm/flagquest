@@ -46,13 +46,13 @@
 			<li class="stat-item">
 				<span class="stat-label">Round: </span>{{ round }}/{{ maxRounds }}
 			</li>
-			<li>
+			<li class="start-over">
 				<button
 					class="secondary outline"
 					@click="startOver"
 				>
 					<span class="btn-text-full">Start Over</span>
-					<span class="btn-text-short">Restart</span>
+					<span class="btn-text-short">↻</span>
 				</button>
 			</li>
 		</ul>
@@ -190,7 +190,8 @@ nav ul li {
   white-space: nowrap;
 }
 
-.mode-tabs button:hover {
+.mode-tabs button:hover,
+.start-over button:hover {
   background: var(--pico-primary-focus);
 }
 
