@@ -30,7 +30,6 @@
 
 		<GameAnswerDisplay
 			v-else
-			ref="answerDisplayRef"
 			:country="currentCountry!"
 			:is-correct="isCorrect"
 			:is-final-round="isFinalRound"
@@ -63,7 +62,6 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	updateStats: [{ round: number; correctAnswers: number; accuracy: number }];
-	gameOver: [];
 }>();
 
 const round = ref(1);
@@ -78,9 +76,6 @@ const isKeyboardOpen = ref(false);
 
 const gameHistory = ref<GameRound[]>([]);
 const gameInputRef = ref<InstanceType<typeof GameInput> | null>(null);
-const answerDisplayRef = ref<InstanceType<typeof GameAnswerDisplay> | null>(
-	null,
-);
 
 const normalizeString = (str: string) => {
 	return str
