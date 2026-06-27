@@ -122,19 +122,13 @@ main {
   position: relative;
   z-index: 1;
   text-align: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--pico-card-background-color);
   backdrop-filter: blur(5px);
   padding: 1rem 1.5rem;
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   width: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  main {
-    background: rgba(0, 0, 0, 0.5);
-  }
 }
 
 hgroup {
