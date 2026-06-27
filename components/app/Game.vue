@@ -147,13 +147,13 @@ function showCurrentAnswer() {
 }
 
 function nextRound() {
-	if (currentCountry.value) {
-		gameHistory.value.push({
-			country: currentCountry.value,
-			correct: isCorrect.value,
-			userGuess: currentGuess.value,
-		});
-	}
+	if (!showAnswer.value || !currentCountry.value) return;
+
+	gameHistory.value.push({
+		country: currentCountry.value,
+		correct: isCorrect.value,
+		userGuess: currentGuess.value,
+	});
 
 	if (isFinalRound.value) {
 		emitStats();

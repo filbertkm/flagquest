@@ -12,7 +12,6 @@
 				:aria-expanded="showSuggestions && filteredLocations.length > 0"
 				aria-controls="suggestions-list"
 				@keydown="handleKeyDown"
-				@keyup.enter="handleSubmit"
 				@input="handleInput"
 				@blur="hideSuggestions"
 				@focus="handleFocus"
@@ -131,13 +130,20 @@ function handleSubmit() {
 	emit("submit", guess.value.trim());
 }
 
+function highlightFirstSuggestion() {
+	nextTick(() => {
+		selectedIndex.value = filteredLocations.value.length > 0 ? 0 : -1;
+	});
+}
+
 function handleInput() {
 	showSuggestions.value = true;
-	selectedIndex.value = -1;
+	highlightFirstSuggestion();
 }
 
 function handleFocus() {
 	showSuggestions.value = true;
+	highlightFirstSuggestion();
 	emit("focus");
 }
 
@@ -156,6 +162,10 @@ function hideSuggestions() {
 
 function handleKeyDown(event: KeyboardEvent) {
 	if (!showSuggestions.value || filteredLocations.value.length === 0) {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			handleSubmit();
+		}
 		return;
 	}
 
@@ -173,6 +183,18 @@ function handleKeyDown(event: KeyboardEvent) {
 				= selectedIndex.value > 0 ? selectedIndex.value - 1 : maxIndex;
 			break;
 		case "Enter":
+			if (selectedIndex.value >= 0 && selectedIndex.value <= maxIndex) {
+				event.preventDefault();
+				const selectedItem = filteredLocations.value[selectedIndex.value];
+				if (selectedItem) {
+					selectCountry(selectedItem.displayText);
+				}
+			}
+			else {
+				event.preventDefault();
+				handleSubmit();
+			}
+			break;
 		case "Tab":
 			if (selectedIndex.value >= 0 && selectedIndex.value <= maxIndex) {
 				event.preventDefault();
