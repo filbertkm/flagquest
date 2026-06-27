@@ -61,7 +61,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	updateStats: [{ round: number; correctAnswers: number; accuracy: number }];
+	updateStats: [{ round: number; accuracy: number }];
 }>();
 
 const round = ref(1);
@@ -154,7 +154,6 @@ function nextRound() {
 	if (isFinalRound.value) {
 		emitStats();
 		currentCountry.value = null;
-		emit("gameOver");
 		return;
 	}
 
@@ -239,7 +238,6 @@ function handleGlobalKeyDown(event: KeyboardEvent) {
 function emitStats() {
 	emit("updateStats", {
 		round: round.value,
-		correctAnswers: correctAnswers.value,
 		accuracy: accuracy.value,
 	});
 }

@@ -46,7 +46,6 @@ const autocompletePlaceholderText = computed(() => {
 
 const maxRounds = 10;
 const round = ref(1);
-const correctAnswers = ref(0);
 const accuracy = ref(0);
 
 const gameRef = ref<InstanceType<typeof Game> | null>(null);
@@ -57,11 +56,9 @@ function switchMode(newMode: "countries" | "states") {
 
 function handleUpdateStats(stats: {
 	round: number;
-	correctAnswers: number;
 	accuracy: number;
 }) {
 	round.value = stats.round;
-	correctAnswers.value = stats.correctAnswers;
 	accuracy.value = stats.accuracy;
 }
 
