@@ -14,7 +14,7 @@
 		<main class="container">
 			<Game
 				ref="gameRef"
-				:countries="countries"
+				:locations="locations"
 				:autocomplete-placeholder-text="autocompletePlaceholderText"
 				:max-rounds="maxRounds"
 				@update-stats="handleUpdateStats"
@@ -35,7 +35,7 @@ defineOptions({
 });
 
 const mode = ref<"countries" | "states">("countries");
-const countries = computed<Country[]>(() =>
+const locations = computed<Country[]>(() =>
 	mode.value === "countries" ? countriesData : statesData,
 );
 const autocompletePlaceholderText = computed(() => {

@@ -9,7 +9,7 @@
 				autocomplete="off"
 				role="combobox"
 				aria-autocomplete="list"
-				:aria-expanded="showSuggestions && filteredCountries.length > 0"
+				:aria-expanded="showSuggestions && filteredLocations.length > 0"
 				aria-controls="suggestions-list"
 				@keydown="handleKeyDown"
 				@keyup.enter="handleSubmit"
@@ -18,13 +18,13 @@
 				@focus="handleFocus"
 			>
 			<ul
-				v-if="showSuggestions && filteredCountries.length > 0"
+				v-if="showSuggestions && filteredLocations.length > 0"
 				id="suggestions-list"
 				class="suggestions"
 				role="listbox"
 			>
 				<li
-					v-for="(item, index) in filteredCountries.slice(0, 5)"
+					v-for="(item, index) in filteredLocations.slice(0, 5)"
 					:key="`${item.country.id}-${item.displayText}`"
 					:class="{ selected: index === selectedIndex }"
 					role="option"
@@ -57,7 +57,7 @@
 import type { Country, SuggestionItem } from "~/types";
 
 const props = defineProps<{
-	countries: Country[];
+	locations: Country[];
 	placeholder: string;
 	keyboardOpen?: boolean;
 }>();
@@ -80,14 +80,14 @@ const normalizeString = (str: string) => {
 		.toLowerCase();
 };
 
-const filteredCountries = computed(() => {
+const filteredLocations = computed(() => {
 	if (!guess.value || guess.value.length < 1) return [];
 	const searchTerm = normalizeString(guess.value);
 
 	const startsWithMatches: SuggestionItem[] = [];
 	const containsMatches: SuggestionItem[] = [];
 
-	for (const c of props.countries) {
+	for (const c of props.locations) {
 		const nameNormalized = normalizeString(c.name);
 		const nameStartsWith = nameNormalized.startsWith(searchTerm);
 		const nameContains = nameNormalized.includes(searchTerm);
@@ -118,7 +118,7 @@ const filteredCountries = computed(() => {
 const isValidGuess = computed(() => {
 	if (!guess.value.trim()) return false;
 	const normalizedGuess = normalizeString(guess.value.trim());
-	return props.countries.some((c) => {
+	return props.locations.some((c) => {
 		if (normalizeString(c.name) === normalizedGuess) return true;
 		return c.aliases?.some(
 			(alias: string) => normalizeString(alias) === normalizedGuess,
@@ -155,11 +155,11 @@ function hideSuggestions() {
 }
 
 function handleKeyDown(event: KeyboardEvent) {
-	if (!showSuggestions.value || filteredCountries.value.length === 0) {
+	if (!showSuggestions.value || filteredLocations.value.length === 0) {
 		return;
 	}
 
-	const maxIndex = Math.min(filteredCountries.value.length, 5) - 1;
+	const maxIndex = Math.min(filteredLocations.value.length, 5) - 1;
 
 	switch (event.key) {
 		case "ArrowDown":
@@ -176,7 +176,7 @@ function handleKeyDown(event: KeyboardEvent) {
 		case "Tab":
 			if (selectedIndex.value >= 0 && selectedIndex.value <= maxIndex) {
 				event.preventDefault();
-				const selectedItem = filteredCountries.value[selectedIndex.value];
+				const selectedItem = filteredLocations.value[selectedIndex.value];
 				if (selectedItem) {
 					selectCountry(selectedItem.displayText);
 				}

@@ -19,7 +19,7 @@
 		<GameInput
 			v-if="!showAnswer"
 			ref="gameInputRef"
-			:countries="countries"
+			:locations="locations"
 			:placeholder="autocompletePlaceholderText"
 			:keyboard-open="isKeyboardOpen"
 			@submit="submitGuess"
@@ -55,7 +55,7 @@ import GameAnswerDisplay from "./GameAnswerDisplay.vue";
 import { isMobileWidth } from "~/constants/breakpoints";
 
 const props = defineProps<{
-	countries: Country[];
+	locations: Country[];
 	autocompletePlaceholderText: string;
 	maxRounds: number;
 }>();
@@ -111,7 +111,7 @@ const flagAltText = computed(() =>
 );
 
 function getRandomCountry(): Country | null {
-	const available = props.countries.filter(
+	const available = props.locations.filter(
 		c => !usedCountries.value.has(c.id),
 	);
 	if (available.length === 0) return null;
@@ -253,7 +253,7 @@ defineExpose({
 });
 
 watch(
-	() => props.countries,
+	() => props.locations,
 	() => {
 		startOver();
 	},
