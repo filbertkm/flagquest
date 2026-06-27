@@ -11,6 +11,7 @@
 			class="flag-container"
 		>
 			<img
+				:key="currentCountry!.id"
 				:src="currentCountry!.flag"
 				:alt="flagAltText"
 			>
