@@ -155,9 +155,8 @@ function nextRound() {
 		});
 	}
 
-	emitStats();
-
 	if (isFinalRound.value) {
+		emitStats();
 		currentCountry.value = null;
 		emit("gameOver");
 		return;
@@ -169,6 +168,7 @@ function nextRound() {
 	showAnswer.value = false;
 	isCorrect.value = false;
 	currentCountry.value = getRandomCountry();
+	emitStats();
 
 	nextTick(() => {
 		if (isMobileWidth()) {
